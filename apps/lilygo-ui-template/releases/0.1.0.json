@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-template",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Template",
+    "title": "LILYGO UI Template",
+    "summary": "A starter template for LILYGO UI applications",
+    "description": "A responsive application template demonstrating the recommended LILYGO UI project structure.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Development"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/template",
+    "homepage": "https://github.com/LILYGO-UI/template",
+    "assets": {
+      "icon": "assets/sha256/2d/2d2a6ca62ce114efbac07222d4d6365a7221a63cddb184bf953fe68213cecdc6.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/18/1815c93ff869f1add372993e308f895eb4f27d2ceee2201a3f989bf4372fe291.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store application settings",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1061100,
+    "sha256": "83b6015e8d2da048e04ed273ca2868199f73d5c632579b5ce340d4ca759c9acd",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-template-0.1.0-83b6015e8d2d",
+      "asset": "sha256-83b6015e8d2da048e04ed273ca2868199f73d5c632579b5ce340d4ca759c9acd.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-template-0.1.0-83b6015e8d2d/sha256-83b6015e8d2da048e04ed273ca2868199f73d5c632579b5ce340d4ca759c9acd.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-template",
+      "asset": "sha256-83b6015e8d2da048e04ed273ca2868199f73d5c632579b5ce340d4ca759c9acd.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-template/sha256-83b6015e8d2da048e04ed273ca2868199f73d5c632579b5ce340d4ca759c9acd.deb"
+    }
+  }
+}
