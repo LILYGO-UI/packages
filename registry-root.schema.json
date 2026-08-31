@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-root.schema.json",
+  "title": "LILYGO Store Registry Root",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "snapshot_id", "generated_at", "index"],
+  "properties": {
+    "protocol_version": { "type": "integer", "const": 1 },
+    "snapshot_id": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "sha256"],
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}

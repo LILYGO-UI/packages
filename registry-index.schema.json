@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-index.schema.json",
+  "title": "LILYGO Store Registry Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "snapshot_id", "generated_at", "apps"],
+  "properties": {
+    "protocol_version": { "type": "integer", "const": 1 },
+    "snapshot_id": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "apps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "app_id",
+          "package",
+          "title",
+          "summary",
+          "categories",
+          "icon_url",
+          "latest_version",
+          "detail_url"
+        ],
+        "properties": {
+          "app_id": { "type": "string" },
+          "package": { "type": "string" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "categories": { "type": "array", "items": { "type": "string" } },
+          "icon_url": { "type": "string", "format": "uri" },
+          "latest_version": { "type": "string" },
+          "detail_url": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-app.schema.json",
+  "title": "LILYGO Store Application Detail",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "app_id",
+    "package",
+    "title",
+    "summary",
+    "description",
+    "authors",
+    "categories",
+    "license",
+    "source_repo",
+    "homepage",
+    "icon_url",
+    "screenshots",
+    "permissions",
+    "releases"
+  ],
+  "properties": {
+    "protocol_version": { "type": "integer", "const": 1 },
+    "app_id": { "type": "string" },
+    "package": { "type": "string" },
+    "title": { "type": "string" },
+    "summary": { "type": "string" },
+    "description": { "type": "string" },
+    "authors": { "type": "array", "items": { "type": "object" } },
+    "categories": { "type": "array", "items": { "type": "string" } },
+    "license": { "type": "string" },
+    "source_repo": { "type": "string", "format": "uri" },
+    "homepage": { "type": "string", "format": "uri" },
+    "icon_url": { "type": "string", "format": "uri" },
+    "screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "caption"],
+        "properties": {
+          "url": { "type": "string", "format": "uri" },
+          "caption": { "type": "string" }
+        }
+      }
+    },
+    "permissions": { "type": "array", "items": { "type": "object" } },
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "architecture",
+          "status",
+          "size",
+          "sha256",
+          "url",
+          "min_appkit_version",
+          "published_at"
+        ],
+        "properties": {
+          "version": { "type": "string" },
+          "architecture": { "type": "string" },
+          "status": { "enum": ["published", "yanked", "revoked"] },
+          "size": { "type": "integer" },
+          "sha256": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "min_appkit_version": { "type": "string" },
+          "published_at": { "type": "string", "format": "date-time" },
+          "yanked_at": { "type": "string", "format": "date-time" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "releases": {
+          "items": {
+            "if": {
+              "properties": { "status": { "const": "yanked" } },
+              "required": ["status"]
+            },
+            "then": { "required": ["reason", "yanked_at"] }
+          }
+        }
+      }
+    }
+  ]
+}

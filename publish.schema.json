@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/schemas/publish.schema.json",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
   "title": "LILYGO UI App Publish Manifest",
   "description": "Schema for publish files used by LILYGO UI applications.",
   "type": "object",
@@ -21,12 +21,13 @@
     "homepage",
     "assets",
     "permissions",
-    "compatibility"
+    "compatibility",
+    "launcher"
   ],
   "properties": {
     "$schema": {
       "type": "string",
-      "const": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/schemas/app-builder.schema.json"
+      "const": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json"
     },
     "schema_version": {
       "type": "integer",
@@ -120,6 +121,9 @@
     },
     "compatibility": {
       "$ref": "#/$defs/compatibility"
+    },
+    "launcher": {
+      "$ref": "#/$defs/launcher"
     }
   },
   "$defs": {
@@ -324,6 +328,21 @@
         "min_appkit_version": {
           "type": "string",
           "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+        }
+      }
+    },
+    "launcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "order"
+      ],
+      "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Launcher sort order; lower values appear first."
         }
       }
     }

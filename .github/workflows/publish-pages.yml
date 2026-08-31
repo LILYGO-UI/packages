@@ -1,0 +1,77 @@
+name: Promote packages and publish registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/**"
+      - "assets/**"
+      - "*.schema.json"
+      - "scripts/**"
+      - ".github/workflows/publish-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: registry-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Install registry dependencies
+        run: python -m pip install --requirement requirements.txt
+
+      - name: Select promotion base
+        id: base
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [[ -z "${BEFORE}" || "${BEFORE}" =~ ^0+$ ]]; then
+            echo "sha=$(git rev-list --max-parents=0 HEAD)" >> "${GITHUB_OUTPUT}"
+          else
+            echo "sha=${BEFORE}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Validate canonical registry
+        run: python scripts/validate_registry.py --root .
+
+      - name: Promote reviewed Debian assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROMOTE_ALL: ${{ github.event_name == 'workflow_dispatch' && '--all-published' || '' }}
+        run: >-
+          python scripts/promote_release.py
+          --root .
+          --base-ref "${{ steps.base.outputs.sha }}"
+          --head-ref "${{ github.sha }}"
+          --repository "${{ github.repository }}"
+          ${PROMOTE_ALL}
+
+      - name: Build immutable registry snapshot
+        run: >-
+          python scripts/build_pages.py
+          --root .
+          --output public
+          --snapshot-id "${{ github.sha }}"
+          --base-url "https://${{ github.repository_owner }}.github.io/packages"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
