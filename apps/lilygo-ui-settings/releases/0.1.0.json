@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-settings",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Settings",
+    "title": "Settings",
+    "summary": "Configure networking, Bluetooth, power, and device settings.",
+    "description": "The system Settings application for LILYGO UI devices, providing Wi-Fi, Bluetooth, Ethernet, battery, and device information controls.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "System",
+      "Utilities"
+    ],
+    "license": "LicenseRef-proprietary",
+    "source_repo": "https://github.com/LILYGO-UI/settings",
+    "homepage": "https://github.com/LILYGO-UI/settings",
+    "assets": {
+      "icon": "assets/sha256/81/81e29e76f3a771ab5dd2cb0cb7f8fbfbf91d7ee8924b48000ff6091725b9be41.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/90/906831c8a3d1a24c90619f46526f5335923febb3586f4ed36a58f8340ef541d3.png",
+          "caption": "Settings categories and current device status."
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Inspect and configure Wi-Fi and Ethernet through system network services."
+      },
+      {
+        "id": "bluetooth",
+        "reason": "Inspect, enable, pair, and disconnect Bluetooth devices through BlueZ."
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "1.2.0"
+    },
+    "launcher": {
+      "order": 35
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 716620,
+    "sha256": "aa9d0cb777cc009b0cd14d3ef531287d95b810f936838d96e9930aac14a3fdcc",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-settings-0.1.0-aa9d0cb777cc",
+      "asset": "sha256-aa9d0cb777cc009b0cd14d3ef531287d95b810f936838d96e9930aac14a3fdcc.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-settings-0.1.0-aa9d0cb777cc/sha256-aa9d0cb777cc009b0cd14d3ef531287d95b810f936838d96e9930aac14a3fdcc.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-settings",
+      "asset": "sha256-aa9d0cb777cc009b0cd14d3ef531287d95b810f936838d96e9930aac14a3fdcc.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-settings/sha256-aa9d0cb777cc009b0cd14d3ef531287d95b810f936838d96e9930aac14a3fdcc.deb"
+    }
+  }
+}
