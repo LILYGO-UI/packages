@@ -1,0 +1,73 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-files",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Files",
+    "title": "Files",
+    "summary": "Browse and manage files on LILYGO UI.",
+    "description": "A file manager for LILYGO UI devices that supports directory navigation, search, text preview, and folder creation.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "System",
+      "Utilities"
+    ],
+    "license": "LicenseRef-proprietary",
+    "source_repo": "https://github.com/LILYGO-UI/files",
+    "homepage": "https://github.com/LILYGO-UI/files",
+    "assets": {
+      "icon": "assets/sha256/d4/d4bb88d27082b9f5c5ec37206475b8ba624c848fe7c7fb860e8976563498c3c1.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/3f/3f30f9bfe3b3415fe3421c6ae928102ae187df4e5e43ee37f72401f3c3f03d5e.png",
+          "caption": "Files home screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "filesystem",
+        "reason": "Browse and manage files selected by the user.",
+        "access": "read-write",
+        "scope": "shared-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 30
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1107936,
+    "sha256": "3e46f0081a0bb055dfc5f0d8bf503b294788935de3dcd9da58615cc433e9cc22",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-files-0.1.0-3e46f0081a0b",
+      "asset": "sha256-3e46f0081a0bb055dfc5f0d8bf503b294788935de3dcd9da58615cc433e9cc22.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-files-0.1.0-3e46f0081a0b/sha256-3e46f0081a0bb055dfc5f0d8bf503b294788935de3dcd9da58615cc433e9cc22.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-files",
+      "asset": "sha256-3e46f0081a0bb055dfc5f0d8bf503b294788935de3dcd9da58615cc433e9cc22.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-files/sha256-3e46f0081a0bb055dfc5f0d8bf503b294788935de3dcd9da58615cc433e9cc22.deb"
+    }
+  }
+}
