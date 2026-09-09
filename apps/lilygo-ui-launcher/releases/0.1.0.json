@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-launcher",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Launcher",
+    "title": "LILYGO UI Launcher",
+    "summary": "System application launcher for LILYGO Linux products.",
+    "description": "The primary LILYGO UI shell for discovering and launching installed applications on LILYGO Linux products.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "email": "110239031@qq.com",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "System"
+    ],
+    "license": "LicenseRef-proprietary",
+    "source_repo": "https://github.com/LILYGO-UI/launcher",
+    "homepage": "https://github.com/LILYGO-UI/launcher",
+    "assets": {
+      "icon": "assets/sha256/a8/a81e8668395cc35fff991f8a3def79f67c7548faa630e05f0eedd4143621935e.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/71/71a4dd38f7b553ea31887b4d27b7cfba5c3d5e1e2eed24586504c50859f92495.png",
+          "caption": "Launcher home screen in portrait orientation."
+        },
+        {
+          "path": "assets/sha256/39/3933baed0a5d711a59c68c1740843173d4d14f24ce58cf967d13bd00ebcd87d6.png",
+          "caption": "Launcher home screen in landscape orientation."
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "background-service",
+        "reason": "Run as the primary system UI and manage application processes."
+      },
+      {
+        "id": "filesystem",
+        "reason": "Discover installed application manifests and icons.",
+        "access": "read",
+        "scope": "shared-data"
+      },
+      {
+        "id": "external-display",
+        "reason": "Drive the device display directly through DRM/KMS."
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 0
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1072368,
+    "sha256": "1abdab16f7ea9a402abecd09a756db2caf92efef4386dcbd7a3b1bec0066ad4b",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-launcher-0.1.0-1abdab16f7ea",
+      "asset": "sha256-1abdab16f7ea9a402abecd09a756db2caf92efef4386dcbd7a3b1bec0066ad4b.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-launcher-0.1.0-1abdab16f7ea/sha256-1abdab16f7ea9a402abecd09a756db2caf92efef4386dcbd7a3b1bec0066ad4b.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-launcher",
+      "asset": "sha256-1abdab16f7ea9a402abecd09a756db2caf92efef4386dcbd7a3b1bec0066ad4b.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-launcher/sha256-1abdab16f7ea9a402abecd09a756db2caf92efef4386dcbd7a3b1bec0066ad4b.deb"
+    }
+  }
+}
