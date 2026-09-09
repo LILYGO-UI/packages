@@ -1,0 +1,69 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-monitor",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Monitor",
+    "title": "Monitor",
+    "summary": "Quickly view CPU, memory, storage, and network status",
+    "description": "A lightweight system monitor for LILYGO UI devices with live CPU, memory, storage, temperature, network, and system information.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-monitor",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-monitor",
+    "assets": {
+      "icon": "assets/sha256/e2/e280b87da12565ecd95af6ddec94f10622b777ecde85f5173b1c4449875a7b3d.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/14/14fe1742e3a68ea143c7c49cb23fcfa2c81357b94911ef0af24b003102d34cbd.png",
+          "caption": "Main application screen"
+        },
+        {
+          "path": "assets/sha256/37/37bbfb277f848c8e17ad83506f649cf25ca4a0715f0f723ef134768464774dc5.png",
+          "caption": "Measurement statistics"
+        }
+      ]
+    },
+    "permissions": [],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1111224,
+    "sha256": "9a7ca4e1d05f3494c01e11a50a180984555430ce9784b4a983ef5e086156d031",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-monitor-0.1.0-9a7ca4e1d05f",
+      "asset": "sha256-9a7ca4e1d05f3494c01e11a50a180984555430ce9784b4a983ef5e086156d031.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-monitor-0.1.0-9a7ca4e1d05f/sha256-9a7ca4e1d05f3494c01e11a50a180984555430ce9784b4a983ef5e086156d031.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-monitor",
+      "asset": "sha256-9a7ca4e1d05f3494c01e11a50a180984555430ce9784b4a983ef5e086156d031.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-monitor/sha256-9a7ca4e1d05f3494c01e11a50a180984555430ce9784b4a983ef5e086156d031.deb"
+    }
+  }
+}
