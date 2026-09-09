@@ -24,6 +24,20 @@ After review and merge, the trusted promotion workflow downloads and validates
 the package again, uploads it to `apt-pool-<package>` in this repository's GitHub
 Releases, builds an immutable registry snapshot, and deploys GitHub Pages.
 
+## Debian maintainer scripts
+
+All packages may contain `preinst`, `postinst`, `prerm`, and `postrm` scripts,
+including third-party applications. No package or publisher allowlist is
+required. Validation inspects the Debian archives without executing any
+maintainer scripts.
+
+This policy is shared by PR validation and release promotion. Ownership,
+artifact hashes, Debian identity fields, and archive safety checks still apply.
+Validator changes must land on `main` before a publishing PR can use them.
+After that change lands, update the publishing branch against `main` to trigger
+validation with the new base revision; rerunning an old workflow keeps its old
+base revision.
+
 ## Source layout
 
 ```text

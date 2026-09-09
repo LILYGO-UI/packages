@@ -221,6 +221,22 @@ class RegistryValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(RegistryError, "new application owner"):
                 validate_pull_request(root, base, "bob")
 
+            release_path = root / "apps/lilygo-ui-demo/releases/1.2.3.json"
+            release = json.loads(release_path.read_text(encoding="utf-8"))
+            release["submitted_by"] = "lbuque"
+            source = release["artifact"]["source"]
+            source["repository"] = "lbuque/packages"
+            source["url"] = release_download_url(
+                source["repository"], source["tag"], source["asset"]
+            )
+            write_json(release_path, release)
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(
+                ["git", "commit", "-qm", "spoof submitter"], cwd=root, check=True
+            )
+            with self.assertRaisesRegex(RegistryError, "submitted_by must match"):
+                validate_pull_request(root, base, "alice")
+
     def test_owner_can_yank_without_changing_release_identity(self) -> None:
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
@@ -278,7 +294,7 @@ class RegistryValidationTests(unittest.TestCase):
         self.assertGreater(debian_version_compare("1.0-2", "1.0-1"), 0)
         self.assertEqual(debian_version_compare("1.01", "1.1"), 0)
 
-    def test_debian_archive_rejects_maintainer_scripts(self) -> None:
+    def test_debian_archive_allows_preinst(self) -> None:
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
             package_root = root / "package"
@@ -315,9 +331,9 @@ class RegistryValidationTests(unittest.TestCase):
             item = ReleaseFile(root / "release.json", {}, {})
             _validate_debian_archive(item, package)
 
-            postinst = control / "postinst"
-            postinst.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
-            postinst.chmod(0o755)
+            preinst = control / "preinst"
+            preinst.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            preinst.chmod(0o755)
             subprocess.run(
                 [
                     "dpkg-deb",
@@ -329,8 +345,7 @@ class RegistryValidationTests(unittest.TestCase):
                 check=True,
                 capture_output=True,
             )
-            with self.assertRaisesRegex(RegistryError, "maintainer scripts"):
-                _validate_debian_archive(item, package)
+            _validate_debian_archive(item, package)
 
     @patch("scripts.promote_release.run_gh")
     def test_central_asset_verification_requires_matching_digest(

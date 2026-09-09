@@ -319,16 +319,8 @@ def _validate_debian_archive(item: ReleaseFile, package: Path) -> None:
                                 f"Debian archive contains an unsafe link {member.name}: {item.path}"
                             )
             with tarfile.open(control_tar, "r:*") as archive:
-                scripts = {
-                    Path(member.name.removeprefix("./")).name
-                    for member in archive
-                    if member.isfile()
-                }.intersection({"preinst", "postinst", "prerm", "postrm"})
-                if scripts:
-                    raise RegistryError(
-                        f"third-party Debian packages may not contain maintainer scripts "
-                        f"({', '.join(sorted(scripts))}): {item.path}"
-                    )
+                # Parse control entries without executing maintainer scripts.
+                archive.getmembers()
         except (tarfile.TarError, OSError) as exc:
             raise RegistryError(
                 f"cannot parse Debian archive for {item.path}: {exc}"
