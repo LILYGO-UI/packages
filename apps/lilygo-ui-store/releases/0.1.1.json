@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-store",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.Store",
+    "title": "Store",
+    "summary": "Browse, install, and manage LILYGO UI apps.",
+    "description": "An app store for LILYGO UI devices that allows you to browse apps from the registry, view installed apps, and handle app installation, updates, and uninstallation.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "System",
+      "Utilities"
+    ],
+    "license": "LicenseRef-proprietary",
+    "source_repo": "https://github.com/LILYGO-UI/store",
+    "homepage": "https://github.com/LILYGO-UI/store",
+    "assets": {
+      "icon": "assets/sha256/5a/5a34e76fb5aa6cc417f3c1f41763a778a096f04a728d661f2daaee8f71d9dc6d.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/c0/c02840f36979e0229423d7b59e1dcc19e6432a1d983b3987db5a10ba189f11e8.png",
+          "caption": "Browse and manage LILYGO UI applications."
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Read the application directory, download applications, and fetch dependencies from configured APT sources."
+      },
+      {
+        "id": "filesystem",
+        "reason": "Cache the application catalog, downloaded icons, and screenshots.",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 20
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1237376,
+    "sha256": "9979ac1fd0893ffcc1a1cf2b684c21f8e095c97c59e3e31ea32c7750db10bf2d",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-store-0.1.1-9979ac1fd089",
+      "asset": "sha256-9979ac1fd0893ffcc1a1cf2b684c21f8e095c97c59e3e31ea32c7750db10bf2d.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-store-0.1.1-9979ac1fd089/sha256-9979ac1fd0893ffcc1a1cf2b684c21f8e095c97c59e3e31ea32c7750db10bf2d.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-store",
+      "asset": "sha256-9979ac1fd0893ffcc1a1cf2b684c21f8e095c97c59e3e31ea32c7750db10bf2d.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-store/sha256-9979ac1fd0893ffcc1a1cf2b684c21f8e095c97c59e3e31ea32c7750db10bf2d.deb"
+    }
+  }
+}
