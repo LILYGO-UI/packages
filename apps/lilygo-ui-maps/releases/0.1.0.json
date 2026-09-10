@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-maps",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Maps",
+    "title": "Maps",
+    "summary": "Browse and search online maps with an on-device tile cache",
+    "description": "An interactive OpenStreetMap viewer with IP-based startup location, address search, responsive pan and zoom controls, and a removable on-device tile cache.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-maps",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-maps",
+    "assets": {
+      "icon": "assets/sha256/17/17b03c08fc68879e0d1bcd27e571fa65bb08d19898541e9d1e609fd169248529.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/21/21b3818914754bdcaec2f53ae008ece6f6199e9847b5292db5842ce4ce100422.png",
+          "caption": "Online map centered from the current IP location"
+        },
+        {
+          "path": "assets/sha256/49/49ee715e783ee5a6a3808a38272dc7ca3c179e40430c0b8ae76c8d54f8e6d497.png",
+          "caption": "Address search result for Shanghai Pudong"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Cache downloaded map tiles for offline reuse",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1132144,
+    "sha256": "1eb548076044c1793743f8e7ddb850bbcd67f1ffcf538778ef0e95159dea08d9",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-maps-0.1.0-1eb548076044",
+      "asset": "sha256-1eb548076044c1793743f8e7ddb850bbcd67f1ffcf538778ef0e95159dea08d9.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-maps-0.1.0-1eb548076044/sha256-1eb548076044c1793743f8e7ddb850bbcd67f1ffcf538778ef0e95159dea08d9.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-maps",
+      "asset": "sha256-1eb548076044c1793743f8e7ddb850bbcd67f1ffcf538778ef0e95159dea08d9.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-maps/sha256-1eb548076044c1793743f8e7ddb850bbcd67f1ffcf538778ef0e95159dea08d9.deb"
+    }
+  }
+}
