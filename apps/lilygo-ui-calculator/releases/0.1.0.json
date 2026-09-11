@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-calculator",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Calculator",
+    "title": "Calculator",
+    "summary": "A touch-friendly scientific calculator for LILYGO UI",
+    "description": "A responsive calculator with an iPhone-inspired keypad and scientific functions in landscape orientation.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-calculator",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-calculator",
+    "assets": {
+      "icon": "assets/sha256/80/806702758f5881124b3a6dabf9840811ca3e97f77cac7b34baf8dbe5dcb403cc.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/08/0816e158686b342b9f33a4a406731efb376011f88a0d20cf02647a6b0cbbb497.png",
+          "caption": "iPhone-inspired calculator in portrait orientation"
+        }
+      ]
+    },
+    "permissions": [],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1083630,
+    "sha256": "1812165f9dd419d7d55dabe4f22e60eb0c5fffecdd4f9cd8ea774e6b758b7b0d",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-calculator-0.1.0-1812165f9dd4",
+      "asset": "sha256-1812165f9dd419d7d55dabe4f22e60eb0c5fffecdd4f9cd8ea774e6b758b7b0d.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-calculator-0.1.0-1812165f9dd4/sha256-1812165f9dd419d7d55dabe4f22e60eb0c5fffecdd4f9cd8ea774e6b758b7b0d.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-calculator",
+      "asset": "sha256-1812165f9dd419d7d55dabe4f22e60eb0c5fffecdd4f9cd8ea774e6b758b7b0d.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-calculator/sha256-1812165f9dd419d7d55dabe4f22e60eb0c5fffecdd4f9cd8ea774e6b758b7b0d.deb"
+    }
+  }
+}
