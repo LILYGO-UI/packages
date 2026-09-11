@@ -1,0 +1,117 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-sensors",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Sensors",
+    "title": "Sensors",
+    "summary": "Live sensor measurements and I2C device inventory",
+    "description": "Inspect sensor measurements, recent history and both I2C buses on LILYGO Linux boards, with CSV recording and a command-line diagnostic mode.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Science",
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/sensors",
+    "homepage": "https://github.com/LILYGO-UI/sensors",
+    "assets": {
+      "icon": "assets/sha256/6f/6f2bc1bce34f4fe4cad782bc7b31afee58f062f5baf7a26c25fc46de3d5b7c34.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/15/1574d5d675f3e64e8150442d47aaebb471ed3495f7494373dfc7a967c2176ae5.png",
+          "caption": "Sensor list (simulator)"
+        },
+        {
+          "path": "assets/sha256/32/329cbf6e338fde1674c67a19f95a45d4a5ac0a9f0693a46fd45a9b8d10638a50.png",
+          "caption": "Sensor detail and live history (simulator)"
+        },
+        {
+          "path": "assets/sha256/10/107c0b7426fa17bcdab216dd69bc97f4ebd22bcf8c68732489ed25e4ac2c516d.png",
+          "caption": "Sensor history charts (simulator)"
+        },
+        {
+          "path": "assets/sha256/84/843ed69e55d3ba3861c6032ab54a5f0e00f92365804ccbf0589fd94a9952311e.png",
+          "caption": "Sensor detail in landscape (simulator)"
+        },
+        {
+          "path": "assets/sha256/b6/b65f1422cc3c320466030828e1be021cefdd51463bfa988d71bed058948940ae.png",
+          "caption": "Keyboard events and held keys (simulator)"
+        },
+        {
+          "path": "assets/sha256/c5/c59bf601b791f7ee16545f54fba8ce0110109ce3f3d625100d03f9da5dd23511.png",
+          "caption": "I2C bus and device inventory (simulator)"
+        },
+        {
+          "path": "assets/sha256/5f/5f02c2daf4a94a797b012e62288b83a7a807527758806b932139566d3507a3e5.png",
+          "caption": "Microphone waveform and RMS level (simulator)"
+        },
+        {
+          "path": "assets/sha256/12/12321c3a78bc00172acffdb092340e81f89728d64ca82fdffbed6f25dd26d8fc.png",
+          "caption": "Microphone waveform and RMS history charts (simulator)"
+        },
+        {
+          "path": "assets/sha256/61/613bd5f62c66f0e1ee66772ab3411ed297b53330dd14c9f90747b85c2fcf45fa.png",
+          "caption": "Microphone detail in landscape (simulator)"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "i2c",
+        "reason": "Inspect I2C adapters and read supported attached sensors"
+      },
+      {
+        "id": "imu",
+        "reason": "Read sensor measurements through Linux IIO and hwmon interfaces"
+      },
+      {
+        "id": "microphone",
+        "reason": "Measure microphone RMS, peak level and clipping through ALSA capture"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Record sensor measurements as CSV files",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 92
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1303778,
+    "sha256": "ecd94aa1b660b913976afef3bc7666d3cde20f6471070081dcdd467bdb37ab59",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-sensors-0.1.0-ecd94aa1b660",
+      "asset": "sha256-ecd94aa1b660b913976afef3bc7666d3cde20f6471070081dcdd467bdb37ab59.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-sensors-0.1.0-ecd94aa1b660/sha256-ecd94aa1b660b913976afef3bc7666d3cde20f6471070081dcdd467bdb37ab59.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-sensors",
+      "asset": "sha256-ecd94aa1b660b913976afef3bc7666d3cde20f6471070081dcdd467bdb37ab59.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-sensors/sha256-ecd94aa1b660b913976afef3bc7666d3cde20f6471070081dcdd467bdb37ab59.deb"
+    }
+  }
+}
