@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-i2cdetector",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.I2cDetector",
+    "title": "I2C Detector",
+    "summary": "Scan Linux I2C buses and inspect detected 7-bit addresses",
+    "description": "Asynchronously scans available Linux I2C buses and highlights detected devices in a 7-bit address map.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Development"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-i2cdetector",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-i2cdetector",
+    "assets": {
+      "icon": "assets/sha256/f4/f4b6d440c08bdaf8659cc33abd942e7b7afd02fa263a74d522d73d25c50bd18e.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/b8/b8796196c7fc875e1d523faadf14a8d76b4cd2822171939bec5369b589202a8b.png",
+          "caption": "Detected devices highlighted in the 7-bit I2C address map"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "i2c",
+        "reason": "Discover I2C adapters and probe connected 7-bit devices."
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1081140,
+    "sha256": "a4c219e15f86b559e2cf365e8406b76a50466671a86369167ec35ee22709eea8",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-i2cdetector-0.1.0-a4c219e15f86",
+      "asset": "sha256-a4c219e15f86b559e2cf365e8406b76a50466671a86369167ec35ee22709eea8.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-i2cdetector-0.1.0-a4c219e15f86/sha256-a4c219e15f86b559e2cf365e8406b76a50466671a86369167ec35ee22709eea8.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-i2cdetector",
+      "asset": "sha256-a4c219e15f86b559e2cf365e8406b76a50466671a86369167ec35ee22709eea8.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-i2cdetector/sha256-a4c219e15f86b559e2cf365e8406b76a50466671a86369167ec35ee22709eea8.deb"
+    }
+  }
+}
