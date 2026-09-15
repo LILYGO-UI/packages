@@ -1,0 +1,9 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/app.schema.json",
+  "schema_version": 1,
+  "package": "lilygo-ui-i2cdetector",
+  "app_id": "cc.lilygo.ui.I2cDetector",
+  "owners": [
+    "lbuque"
+  ]
+}
