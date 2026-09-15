@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-xiaozhi",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.XiaoZhi",
+    "title": "XiaoZhi",
+    "summary": "XiaoZhi assistant with expressions, live captions, and voice chat",
+    "description": "A XiaoZhi voice assistant for Linux CM0 with device pairing, continuous conversation, push-to-talk, response interruption, expressions, live captions, chat history, and automatic reconnection.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Multimedia",
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-xiaozhi",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-xiaozhi",
+    "assets": {
+      "icon": "assets/sha256/f2/f20ff0c461fd2a76e1b6416c7d8b0cfc00f9b6d5a966b5fa4a63e1ca58296b40.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/fb/fb4231f9798a3a9f693ab3226d1d3823c7fc5db06d50db0c388d5310aaf96108.png",
+          "caption": "Expressions and live captions on the CM0 portrait display"
+        },
+        {
+          "path": "assets/sha256/8e/8ebda40d4921ac45e37822aa917a1ab402beac5a4048aa14e0c19e339a96d633.png",
+          "caption": "Six-digit device pairing code for xiaozhi.me"
+        },
+        {
+          "path": "assets/sha256/af/afc47249bc643b825c515d376c69b9f9ab285d8ef40846f3cad20a60be18fb39.png",
+          "caption": "Conversation history with user transcripts and assistant replies"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store application settings",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1146034,
+    "sha256": "42bd394685a058e83f6dc232d08b6b9f0c5fccc6afdc7803ee8d44fcfa96a9af",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-xiaozhi-0.1.0-42bd394685a0",
+      "asset": "sha256-42bd394685a058e83f6dc232d08b6b9f0c5fccc6afdc7803ee8d44fcfa96a9af.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-xiaozhi-0.1.0-42bd394685a0/sha256-42bd394685a058e83f6dc232d08b6b9f0c5fccc6afdc7803ee8d44fcfa96a9af.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-xiaozhi",
+      "asset": "sha256-42bd394685a058e83f6dc232d08b6b9f0c5fccc6afdc7803ee8d44fcfa96a9af.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-xiaozhi/sha256-42bd394685a058e83f6dc232d08b6b9f0c5fccc6afdc7803ee8d44fcfa96a9af.deb"
+    }
+  }
+}
