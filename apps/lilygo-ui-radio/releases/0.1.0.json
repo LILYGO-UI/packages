@@ -1,0 +1,81 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-radio",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Radio",
+    "title": "Radio",
+    "summary": "Discover and play stations from Radio Browser",
+    "description": "An iOS-inspired internet radio player for LILYGO UI. Browse and search Radio Browser stations, keep listening while discovering more, or play a saved custom HTTP/HTTPS audio stream.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Multimedia",
+      "Network"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-radio",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-radio",
+    "assets": {
+      "icon": "assets/sha256/e1/e1325b131503be0498565d55c17eefea5406a8e66d9c3a36c9160feb05d3b8ee.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/58/581d7041dc3083d1744a3ac0004c9f979981037da45af3fd4b73d088932fdf12.png",
+          "caption": "Radio Browser discovery and playback"
+        },
+        {
+          "path": "assets/sha256/a6/a6937317da26962d85f96146d0143135b433557c90e5d86f6a3932df8120ef60.png",
+          "caption": "Find a radio station"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Save custom audio stream URLs",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1173710,
+    "sha256": "aa8e40d2cee8508b0cd73a15ce5749fef79bdbf173cfa0e034d036352a6a20be",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-radio-0.1.0-aa8e40d2cee8",
+      "asset": "sha256-aa8e40d2cee8508b0cd73a15ce5749fef79bdbf173cfa0e034d036352a6a20be.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-radio-0.1.0-aa8e40d2cee8/sha256-aa8e40d2cee8508b0cd73a15ce5749fef79bdbf173cfa0e034d036352a6a20be.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-radio",
+      "asset": "sha256-aa8e40d2cee8508b0cd73a15ce5749fef79bdbf173cfa0e034d036352a6a20be.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-radio/sha256-aa8e40d2cee8508b0cd73a15ce5749fef79bdbf173cfa0e034d036352a6a20be.deb"
+    }
+  }
+}
