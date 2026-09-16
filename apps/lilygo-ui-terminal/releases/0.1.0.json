@@ -1,0 +1,73 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-terminal",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Terminal",
+    "title": "Terminal",
+    "summary": "Interactive shell for LILYGO devices",
+    "description": "Run an interactive device shell with touch keyboard input, common terminal keys, ANSI output, and persistent font sizing.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Development",
+      "System"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-terminal",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-terminal",
+    "assets": {
+      "icon": "assets/sha256/6d/6dd7640f95e267c184755782c2afb55fc88cac1b0451ce8d7231939b551d3b35.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/60/60f10759ee496f6e4db6313528ecf8559d6b9927842d90f840f98a2b4866f28d.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "filesystem",
+        "reason": "Run shell commands against user files and persist terminal settings",
+        "access": "read-write",
+        "scope": "shared-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1088324,
+    "sha256": "d6d6b5829ec9640ff1bb89c598d57810fb2e6d4f0cc633200a6b205d4b8d1ceb",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-terminal-0.1.0-d6d6b5829ec9",
+      "asset": "sha256-d6d6b5829ec9640ff1bb89c598d57810fb2e6d4f0cc633200a6b205d4b8d1ceb.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-terminal-0.1.0-d6d6b5829ec9/sha256-d6d6b5829ec9640ff1bb89c598d57810fb2e6d4f0cc633200a6b205d4b8d1ceb.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-terminal",
+      "asset": "sha256-d6d6b5829ec9640ff1bb89c598d57810fb2e6d4f0cc633200a6b205d4b8d1ceb.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-terminal/sha256-d6d6b5829ec9640ff1bb89c598d57810fb2e6d4f0cc633200a6b205d4b8d1ceb.deb"
+    }
+  }
+}
