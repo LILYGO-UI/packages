@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-serial",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Serial",
+    "title": "Serial",
+    "summary": "Serial port debugging tool",
+    "description": "Scan and configure serial ports, inspect received data in ASCII or HEX, send data, and control RTS, DTR, and BREAK.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Development"
+    ],
+    "license": "MIT",
+    "source_repo": "https://example.invalid/lilygo-ui-serial",
+    "homepage": "https://example.invalid/lilygo-ui-serial",
+    "assets": {
+      "icon": "assets/sha256/2f/2ffae86b81b962ac937e85f44954620859f78e10706426a4630f0be76a35ad0b.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/ff/ffee52481237622fa7d26e7571edaeec1d3940ed6d2e3dbdb20778074dcd1c38.png",
+          "caption": "Serial port settings and receive console"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "serial",
+        "reason": "Discover serial devices, read and write serial data, and control modem lines"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1099272,
+    "sha256": "6f8231ffc2212514acface3b147706868ecf925210b2ff09bb2746bc2abb9edc",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-serial-0.1.0-6f8231ffc221",
+      "asset": "sha256-6f8231ffc2212514acface3b147706868ecf925210b2ff09bb2746bc2abb9edc.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-serial-0.1.0-6f8231ffc221/sha256-6f8231ffc2212514acface3b147706868ecf925210b2ff09bb2746bc2abb9edc.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-serial",
+      "asset": "sha256-6f8231ffc2212514acface3b147706868ecf925210b2ff09bb2746bc2abb9edc.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-serial/sha256-6f8231ffc2212514acface3b147706868ecf925210b2ff09bb2746bc2abb9edc.deb"
+    }
+  }
+}
