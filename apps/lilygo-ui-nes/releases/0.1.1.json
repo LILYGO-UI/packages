@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-nes",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.Nes",
+    "title": "NES",
+    "summary": "Play NES ROMs with touch controls",
+    "description": "A responsive NES emulator for LILYGO UI with ROM discovery, touch controls, audio, and portrait or landscape play.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Games"
+    ],
+    "license": "MIT AND GPL-2.0-or-later",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-nes",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-nes",
+    "assets": {
+      "icon": "assets/sha256/67/67e9e3544d80dcdb1ddedd91b7c46d4593557dac72ab09a5cef1e96c40b1680d.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/ae/aee5ba16d1753efc4fb93b9ae49002cc41a4458176c5b9bacd296acbf0220f38.png",
+          "caption": "Portrait mode"
+        },
+        {
+          "path": "assets/sha256/4f/4fea2614db9984600020fce4441dc3bcbd57b6924e1b4967271411837d97562f.png",
+          "caption": "Landscape mode"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "filesystem",
+        "reason": "Read NES ROMs and write battery saves",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1803300,
+    "sha256": "a1ec13e9f478f92d0f2050a243142d9207c5f8389ce0695ef9075e9668b91dc8",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-nes-0.1.1-a1ec13e9f478",
+      "asset": "sha256-a1ec13e9f478f92d0f2050a243142d9207c5f8389ce0695ef9075e9668b91dc8.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-nes-0.1.1-a1ec13e9f478/sha256-a1ec13e9f478f92d0f2050a243142d9207c5f8389ce0695ef9075e9668b91dc8.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-nes",
+      "asset": "sha256-a1ec13e9f478f92d0f2050a243142d9207c5f8389ce0695ef9075e9668b91dc8.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-nes/sha256-a1ec13e9f478f92d0f2050a243142d9207c5f8389ce0695ef9075e9668b91dc8.deb"
+    }
+  }
+}
