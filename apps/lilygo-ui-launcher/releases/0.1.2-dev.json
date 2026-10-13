@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
   "schema_version": 1,
-  "status": "published",
+  "status": "yanked",
   "submitted_by": "lbuque",
   "manifest": {
     "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
@@ -81,5 +81,9 @@
       "asset": "sha256-9a99333a2c068271e3cf1608163d1a15a8633d06fe8cbb612a93feeb4b277c1a.deb",
       "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-launcher/sha256-9a99333a2c068271e3cf1608163d1a15a8633d06fe8cbb612a93feeb4b277c1a.deb"
     }
+  },
+  "yank": {
+    "reason": "Keyboard input error",
+    "requested_by": "lbuque"
   }
 }
