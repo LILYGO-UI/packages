@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-appkit-dev",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.AppKit",
+    "title": "LILYGO UI AppKit",
+    "summary": "Static LILYGO UI source SDK and shared fonts",
+    "description": "The LILYGO UI AppKit source SDK bundles LVGL, public headers, implementation sources, common fonts, patches, and font licenses for statically linked applications.",
+    "authors": [
+      {
+        "name": "LILYGO UI",
+        "github": "LILYGO-UI"
+      }
+    ],
+    "categories": [
+      "Development"
+    ],
+    "license": "MIT AND OFL-1.1",
+    "source_repo": "https://github.com/LILYGO-UI/cm0-appkit",
+    "homepage": "https://github.com/LILYGO-UI/cm0-appkit",
+    "assets": {
+      "icon": "assets/sha256/80/809dda414f42e023304afb798b2c67956cbdbb48cf3bc5ac929a328bdbce175c.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/44/4434879b194223d8d1b5af26612cfb2f8f138826a6a4d076410ca73e23b2a400.png",
+          "caption": "LILYGO UI AppKit status bar assets"
+        }
+      ]
+    },
+    "permissions": [],
+    "compatibility": {
+      "architectures": [
+        "all"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 0
+    }
+  },
+  "artifact": {
+    "architecture": "all",
+    "size": 18182546,
+    "sha256": "90d808b9361a69b87fd4b369500296963f43f9a45f2c4ba2b4b0fdd62afdb560",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-appkit-dev-0.1.1-90d808b9361a",
+      "asset": "sha256-90d808b9361a69b87fd4b369500296963f43f9a45f2c4ba2b4b0fdd62afdb560.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-appkit-dev-0.1.1-90d808b9361a/sha256-90d808b9361a69b87fd4b369500296963f43f9a45f2c4ba2b4b0fdd62afdb560.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-appkit-dev",
+      "asset": "sha256-90d808b9361a69b87fd4b369500296963f43f9a45f2c4ba2b4b0fdd62afdb560.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-appkit-dev/sha256-90d808b9361a69b87fd4b369500296963f43f9a45f2c4ba2b4b0fdd62afdb560.deb"
+    }
+  }
+}
