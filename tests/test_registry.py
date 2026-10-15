@@ -40,7 +40,9 @@ def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
 
-def make_registry(root: Path, *, owner: str = "alice") -> tuple[Path, Path]:
+def make_registry(
+    root: Path, *, owner: str = "alice", architecture: str = "arm64"
+) -> tuple[Path, Path]:
     source = Path(__file__).resolve().parents[1]
     for schema in SCHEMAS:
         shutil.copy2(source / schema, root / schema)
@@ -96,13 +98,13 @@ def make_registry(root: Path, *, owner: str = "alice") -> tuple[Path, Path]:
             },
             "permissions": [],
             "compatibility": {
-                "architectures": ["arm64"],
+                "architectures": [architecture],
                 "min_appkit_version": "0.1.0",
             },
             "launcher": {"order": 50},
         },
         "artifact": {
-            "architecture": "arm64",
+            "architecture": architecture,
             "size": 1234,
             "sha256": digest,
             "media_type": "application/vnd.debian.binary-package",
@@ -141,29 +143,116 @@ class RegistryValidationTests(unittest.TestCase):
                 )
 
     def test_valid_registry_and_pages_snapshot(self) -> None:
+        architectures = (
+            "arm64",
+            "all",
+            "amd64",
+            "armhf",
+            "riscv64",
+            "linux-arm64",
+            "base-gnu-linux-arm64",
+            "futurecpu42",
+            "many-core",
+            "a" * 64,
+        )
+        for architecture in architectures:
+            with (
+                self.subTest(architecture=architecture),
+                tempfile.TemporaryDirectory() as name,
+            ):
+                root = Path(name)
+                make_registry(root, architecture=architecture)
+                releases = validate_registry(root)
+                output = root / "public"
+                build_pages(
+                    root,
+                    output,
+                    base_url="https://lilygo-ui.github.io/packages",
+                    snapshot_id="a" * 40,
+                    generated_at="2026-08-31T12:00:00+08:00",
+                )
+                index = json.loads(
+                    (output / f"v1/snapshots/{'a' * 40}/index.json").read_text()
+                )
+                detail_path = (
+                    output / f"v1/snapshots/{'a' * 40}/apps/cc.lilygo.ui.Demo.json"
+                )
+                detail = json.loads(detail_path.read_text())
+                self.assertEqual(len(releases), 1)
+                self.assertEqual(index["apps"][0]["latest_version"], "1.2.3")
+                self.assertEqual(detail["releases"][0]["sha256"], "d" * 64)
+                self.assertEqual(detail["releases"][0]["architecture"], architecture)
+
+    def test_registry_rejects_invalid_architecture_names(self) -> None:
+        invalid = (
+            "",
+            "source",
+            "any",
+            "linux-any",
+            "any-arm64",
+            "base-any-arm64",
+            "ARM64",
+            "arm_64",
+            " arm64",
+            "arm64 ",
+            "arm64\n",
+            "arm\n64",
+            "-arm64",
+            "arm64-",
+            "linux--arm64",
+            "a" * 65,
+        )
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
-            make_registry(root)
-            releases = validate_registry(root)
-            output = root / "public"
-            build_pages(
-                root,
-                output,
-                base_url="https://lilygo-ui.github.io/packages",
-                snapshot_id="a" * 40,
-                generated_at="2026-08-31T12:00:00+08:00",
+            _, release_path = make_registry(root)
+            release = json.loads(release_path.read_text())
+            detail_schema = json.loads((root / "registry-app.schema.json").read_text())
+            detail_architecture = Draft202012Validator(
+                detail_schema["properties"]["releases"]["items"]["properties"][
+                    "architecture"
+                ]
             )
-            index = json.loads(
-                (output / f"v1/snapshots/{'a' * 40}/index.json").read_text()
-            )
-            detail = json.loads(
-                (
-                    output / f"v1/snapshots/{'a' * 40}/apps/cc.lilygo.ui.Demo.json"
-                ).read_text()
-            )
-        self.assertEqual(len(releases), 1)
-        self.assertEqual(index["apps"][0]["latest_version"], "1.2.3")
-        self.assertEqual(detail["releases"][0]["sha256"], "d" * 64)
+            for architecture in invalid:
+                for field in ("manifest", "artifact"):
+                    with self.subTest(architecture=architecture, field=field):
+                        release["manifest"]["compatibility"]["architectures"] = [
+                            architecture if field == "manifest" else "arm64"
+                        ]
+                        release["artifact"]["architecture"] = (
+                            architecture if field == "artifact" else "arm64"
+                        )
+                        write_json(release_path, release)
+                        with self.assertRaisesRegex(
+                            RegistryError, "schema validation failed"
+                        ):
+                            validate_registry(root)
+                with self.subTest(architecture=architecture, field="pages"):
+                    self.assertFalse(detail_architecture.is_valid(architecture))
+
+    def test_registry_requires_one_matching_architecture(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            _, release_path = make_registry(root)
+            release = json.loads(release_path.read_text())
+            for architectures in ([], ["arm64", "amd64"], ["all", "arm64"]):
+                with self.subTest(architectures=architectures):
+                    release["manifest"]["compatibility"]["architectures"] = architectures
+                    write_json(release_path, release)
+                    with self.assertRaisesRegex(
+                        RegistryError, "schema validation failed"
+                    ):
+                        validate_registry(root)
+            for artifact, declared in (
+                ("arm64", "all"), ("all", "arm64"), ("amd64", "armhf")
+            ):
+                with self.subTest(artifact=artifact, declared=declared):
+                    release["artifact"]["architecture"] = artifact
+                    release["manifest"]["compatibility"]["architectures"] = [declared]
+                    write_json(release_path, release)
+                    with self.assertRaisesRegex(
+                        RegistryError, "architecture is not declared"
+                    ):
+                        validate_registry(root)
 
     def test_registry_rejects_modified_content_addressed_asset(self) -> None:
         with tempfile.TemporaryDirectory() as name:
@@ -240,7 +329,7 @@ class RegistryValidationTests(unittest.TestCase):
     def test_owner_can_yank_without_changing_release_identity(self) -> None:
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
-            make_registry(root)
+            make_registry(root, architecture="all")
             subprocess.run(["git", "init", "-q"], cwd=root, check=True)
             subprocess.run(
                 ["git", "config", "user.email", "test@example.com"],
@@ -281,6 +370,17 @@ class RegistryValidationTests(unittest.TestCase):
                     output / f"v1/snapshots/{'b' * 40}/apps/cc.lilygo.ui.Demo.json"
                 ).read_text()
             )
+            release["artifact"]["architecture"] = "amd64"
+            release["manifest"]["compatibility"]["architectures"] = ["amd64"]
+            write_json(release_path, release)
+            subprocess.run(["git", "add", str(release_path)], cwd=root, check=True)
+            subprocess.run(
+                ["git", "commit", "-qm", "replace architecture"], cwd=root, check=True
+            )
+            with self.assertRaisesRegex(
+                RegistryError, "existing releases may only be yanked"
+            ):
+                validate_pull_request(root, base, "alice")
 
         self.assertEqual(changed, {"apps/lilygo-ui-demo/releases/1.2.3.json"})
         self.assertEqual(index["apps"], [])

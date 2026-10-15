@@ -128,6 +128,38 @@ class DebianArchiveTests(unittest.TestCase):
             with self.assertRaisesRegex(RegistryError, "control fields do not match"):
                 download_and_validate_artifact(self.item, target)
 
+    def test_download_requires_exact_architecture_including_all(self) -> None:
+        control_path = self.control / "control"
+        control_template = control_path.read_text(encoding="utf-8")
+        target = self.root / "download.deb"
+        for architecture in ("all", "amd64", "armhf", "riscv64", "linux-arm64"):
+            with self.subTest(architecture=architecture):
+                control_path.write_text(
+                    control_template.replace(
+                        "Architecture: arm64", f"Architecture: {architecture}"
+                    ),
+                    encoding="utf-8",
+                )
+                payload = self.build_package().read_bytes()
+                self.item.release["artifact"] = {
+                    "architecture": architecture,
+                    "size": len(payload),
+                    "sha256": hashlib.sha256(payload).hexdigest(),
+                    "source": {"url": "https://example.com/demo.deb"},
+                }
+                with patch(
+                    "scripts.registry_common.urlopen", return_value=io.BytesIO(payload)
+                ):
+                    download_and_validate_artifact(self.item, target)
+                self.item.release["artifact"]["architecture"] = (
+                    "arm64" if architecture == "all" else "all"
+                )
+                with patch(
+                    "scripts.registry_common.urlopen", return_value=io.BytesIO(payload)
+                ):
+                    with self.assertRaisesRegex(RegistryError, "control fields do not match"):
+                        download_and_validate_artifact(self.item, target)
+
 
 if __name__ == "__main__":
     unittest.main()

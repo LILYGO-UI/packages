@@ -24,6 +24,30 @@ After review and merge, the trusted promotion workflow downloads and validates
 the package again, uploads it to `apt-pool-<package>` in this repository's GitHub
 Releases, builds an immutable registry snapshot, and deploys GitHub Pages.
 
+## Debian architectures
+
+Release artifacts accept `all` for architecture-independent packages or a
+concrete Debian architecture name, such as `arm64`, `amd64`, `armhf`, `riscv64`,
+or `linux-arm64`. Architecture names use lowercase ASCII letters and digits,
+optionally separated by single hyphens, and contain at most 64 characters.
+There is no CPU architecture allowlist. Empty names, whitespace, uppercase
+letters, underscores, leading or trailing hyphens, repeated hyphens, `source`,
+and wildcard names containing an `any` segment (such as `any`, `linux-any`, or
+`any-arm64`) are rejected.
+
+Each package version still identifies exactly one Debian artifact, stored as
+`apps/<package>/releases/<version>.json`. Its manifest must declare exactly one
+entry in `compatibility.architectures`, which must match both
+`artifact.architecture` and the Debian `Architecture` control field exactly.
+An `all` artifact therefore declares `["all"]`. Publishing another architecture
+under an existing package version is not supported, and the published artifact
+and architecture remain immutable.
+
+These schema changes must land on `main` before a publishing PR can use new
+architecture values. Update the publishing branch against `main` afterward so
+validation uses the new protected base revision; rerunning an old workflow
+keeps its old base revision.
+
 ## Debian maintainer scripts
 
 All packages may contain `preinst`, `postinst`, `prerm`, and `postrm` scripts,

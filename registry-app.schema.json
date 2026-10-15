@@ -63,7 +63,12 @@
         ],
         "properties": {
           "version": { "type": "string" },
-          "architecture": { "type": "string" },
+          "architecture": {
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "not": { "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]" }
+          },
           "status": { "enum": ["published", "yanked", "revoked"] },
           "size": { "type": "integer" },
           "sha256": { "type": "string" },

@@ -70,7 +70,13 @@
         "central"
       ],
       "properties": {
-        "architecture": { "type": "string", "enum": ["arm64"] },
+        "architecture": {
+          "type": "string",
+          "description": "Concrete Debian architecture or all; must match the manifest and Debian control field exactly.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "not": { "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]" }
+        },
         "size": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
         "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "media_type": {

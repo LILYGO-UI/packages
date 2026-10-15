@@ -316,13 +316,17 @@
       "properties": {
         "architectures": {
           "type": "array",
+          "description": "Exactly one concrete Debian architecture or all for this release artifact.",
           "minItems": 1,
+          "maxItems": 1,
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "enum": [
-              "arm64"
-            ]
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "not": {
+              "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]"
+            }
           }
         },
         "min_appkit_version": {
