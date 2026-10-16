@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-imu",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.Imu",
+    "title": "IMU",
+    "summary": "QMI8658 motion ball",
+    "description": "An acceleration and gyroscope driven ball for T-DisplayCM0, with live six-axis telemetry and calibration.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Development"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/template",
+    "homepage": "https://github.com/LILYGO-UI/template",
+    "assets": {
+      "icon": "assets/sha256/db/dbcc6994bbe0b17326e206e1eaff0a11b36f5b5ede360533a88cb07b7897c22d.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/03/0390b2e5387225851813f049a7aa772493419dc52116ce2173ba961936a1fc24.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "imu",
+        "reason": "Read onboard QMI8658 acceleration and angular velocity through Linux IIO"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1088628,
+    "sha256": "390ca597a7cb22f54a3b7982d8fdac02549212a4586606a2ebff623ef86c0ee7",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-imu-0.1.1-390ca597a7cb",
+      "asset": "sha256-390ca597a7cb22f54a3b7982d8fdac02549212a4586606a2ebff623ef86c0ee7.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-imu-0.1.1-390ca597a7cb/sha256-390ca597a7cb22f54a3b7982d8fdac02549212a4586606a2ebff623ef86c0ee7.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-imu",
+      "asset": "sha256-390ca597a7cb22f54a3b7982d8fdac02549212a4586606a2ebff623ef86c0ee7.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-imu/sha256-390ca597a7cb22f54a3b7982d8fdac02549212a4586606a2ebff623ef86c0ee7.deb"
+    }
+  }
+}
