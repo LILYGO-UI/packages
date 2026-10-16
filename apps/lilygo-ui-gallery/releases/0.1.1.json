@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
   "schema_version": 1,
-  "status": "yanked",
+  "status": "published",
   "submitted_by": "lbuque",
   "manifest": {
     "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
@@ -54,24 +54,20 @@
   },
   "artifact": {
     "architecture": "arm64",
-    "size": 1139644,
-    "sha256": "4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721",
+    "size": 1139658,
+    "sha256": "2e54772a01ba7be55dd231e78be00c6e0513c94bdfddb6e8095fb9cc73a73bbc",
     "media_type": "application/vnd.debian.binary-package",
     "source": {
       "repository": "lbuque/packages",
-      "tag": "lpm-staging-lilygo-ui-gallery-0.1.1-4d4dd23be5d4",
-      "asset": "sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb",
-      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-gallery-0.1.1-4d4dd23be5d4/sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb"
+      "tag": "lpm-staging-lilygo-ui-gallery-0.1.1-2e54772a01ba",
+      "asset": "sha256-2e54772a01ba7be55dd231e78be00c6e0513c94bdfddb6e8095fb9cc73a73bbc.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-gallery-0.1.1-2e54772a01ba/sha256-2e54772a01ba7be55dd231e78be00c6e0513c94bdfddb6e8095fb9cc73a73bbc.deb"
     },
     "central": {
       "repository": "LILYGO-UI/packages",
       "tag": "apt-pool-lilygo-ui-gallery",
-      "asset": "sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb",
-      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-gallery/sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb"
+      "asset": "sha256-2e54772a01ba7be55dd231e78be00c6e0513c94bdfddb6e8095fb9cc73a73bbc.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-gallery/sha256-2e54772a01ba7be55dd231e78be00c6e0513c94bdfddb6e8095fb9cc73a73bbc.deb"
     }
-  },
-  "yank": {
-    "reason": "Validation failed",
-    "requested_by": "lbuque"
   }
 }
