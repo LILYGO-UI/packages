@@ -40,8 +40,8 @@ Each package version still identifies exactly one Debian artifact, stored as
 entry in `compatibility.architectures`, which must match both
 `artifact.architecture` and the Debian `Architecture` control field exactly.
 An `all` artifact therefore declares `["all"]`. Publishing another architecture
-under an existing package version is not supported, and the published artifact
-and architecture remain immutable.
+under an existing package version is not supported. The architecture remains
+fixed even when a yanked release is republished with a replacement artifact.
 
 These schema changes must land on `main` before a publishing PR can use new
 architecture values. Update the publishing branch against `main` afterward so
@@ -71,9 +71,29 @@ assets/sha256/<prefix>/<sha256>.<extension>
 ```
 
 Application ownership is established by the first reviewed `app.json`.
-Published release coordinates are immutable. `lpm unpublish` creates another
-pull request that changes only the selected release status to `yanked` and adds
-the public reason. The historical record and central Debian asset remain.
+`lpm unpublish` creates another pull request that changes only the selected
+release status to `yanked` and adds the public reason. The historical record
+and central Debian asset remain.
+
+After the unpublish PR is merged, an application owner can use
+`lpm publish --force` to republish that yanked version with a replacement Debian
+package and updated manifest. The package name, version, app ID, and architecture
+must stay the same. The release returns to `published`, its yank reason is
+removed, and `submitted_by` must identify the republishing PR's author. Published
+or revoked versions cannot be replaced directly; ordinary `lpm publish` continues
+to reject existing versions.
+
+Replacement Debian packages and images keep their content-addressed names. A
+different Debian SHA-256 produces a new central asset; the old asset remains,
+and Git retains the prior release record. Promotion includes modified published
+records, and the next Pages snapshot points to the replacement package's URL and
+SHA-256. Clients that already installed the same version may need to reinstall
+it, since its version number has not increased.
+
+The registry validator changes that permit republishing must land on `main`
+before a force-publish PR can pass validation. Update the publishing branch
+against `main` afterward so validation uses the new protected base revision;
+rerunning an old workflow keeps its old base revision.
 
 ## AppStore endpoints
 

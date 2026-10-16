@@ -470,28 +470,46 @@ def validate_pull_request(
                 raise RegistryError(
                     f"new releases must be new published records: {path}"
                 )
+            added_release_packages.add(str(item.app["package"]))
+        elif status == "M" and previous is not None:
+            if item.release["status"] == "published":
+                if previous["status"] != "yanked":
+                    raise RegistryError(
+                        f"only yanked releases may be republished: {path}"
+                    )
+                if any(
+                    item.release["manifest"][field] != previous["manifest"][field]
+                    for field in ("package", "version", "app_id")
+                ) or (
+                    item.release["artifact"]["architecture"]
+                    != previous["artifact"]["architecture"]
+                ):
+                    raise RegistryError(
+                        f"republishing must preserve release identity and architecture: {path}"
+                    )
+            else:
+                current_copy = dict(item.release)
+                previous_copy = dict(previous)
+                for value in (current_copy, previous_copy):
+                    value.pop("status", None)
+                    value.pop("yank", None)
+                if current_copy != previous_copy or item.release["status"] != "yanked":
+                    raise RegistryError(f"existing releases may only be yanked: {path}")
+                yank = item.release.get("yank", {})
+                if str(yank.get("requested_by", "")).lower() != author.lower():
+                    raise RegistryError(f"yank requester must match the PR author: {path}")
+        else:
+            raise RegistryError(f"release change is not allowed: {path}")
+
+        if item.release["status"] == "published":
             if item.release["submitted_by"].lower() != author.lower():
                 raise RegistryError(f"submitted_by must match the PR author: {path}")
-            added_release_packages.add(str(item.app["package"]))
             manifest = item.release["manifest"]
             referenced_assets.add(str(manifest["assets"]["icon"]))
             referenced_assets.update(
                 str(screenshot["path"])
                 for screenshot in manifest["assets"]["screenshots"]
             )
-        elif status == "M" and previous is not None:
-            current_copy = dict(item.release)
-            previous_copy = dict(previous)
-            for value in (current_copy, previous_copy):
-                value.pop("status", None)
-                value.pop("yank", None)
-            if current_copy != previous_copy or item.release["status"] != "yanked":
-                raise RegistryError(f"existing releases may only be yanked: {path}")
-            yank = item.release.get("yank", {})
-            if str(yank.get("requested_by", "")).lower() != author.lower():
-                raise RegistryError(f"yank requester must match the PR author: {path}")
-        else:
-            raise RegistryError(f"release change is not allowed: {path}")
 
     added_assets = {
         path for status, path in changes if status == "A" and path.startswith("assets/")
