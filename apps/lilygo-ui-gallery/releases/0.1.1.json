@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
   "schema_version": 1,
-  "status": "published",
+  "status": "yanked",
   "submitted_by": "lbuque",
   "manifest": {
     "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
@@ -69,5 +69,9 @@
       "asset": "sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb",
       "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-gallery/sha256-4d4dd23be5d4b1a4fdc74cd8df90087c5e258e8dca61edf2334fe16ca5ffc721.deb"
     }
+  },
+  "yank": {
+    "reason": "Validation failed",
+    "requested_by": "lbuque"
   }
 }
