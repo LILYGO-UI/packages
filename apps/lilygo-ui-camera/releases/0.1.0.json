@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-camera",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Camera",
+    "title": "Camera",
+    "summary": "Photo and video app for T-DisplayCM0",
+    "description": "Camera app powered by IMX219 and the libcamera C++ API, with a live viewfinder, JPEG photos, configurable 1080p/720p silent video recording, and recent capture previews.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Multimedia"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/camera",
+    "homepage": "https://github.com/LILYGO-UI/camera",
+    "assets": {
+      "icon": "assets/sha256/62/62e03d0658643dce4a3bda683a08c5bee6db838c45e4f5c9485ee118b9a0d49b.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/ad/adbc84855e68655b2ae3c10efcb8bd217e41429d572e7d0a26ad02dde568484a.png",
+          "caption": "Camera viewfinder"
+        },
+        {
+          "path": "assets/sha256/6f/6ff8a7e27b39fa3edcf3510971cf27e91fbf71d2e0ee30c6f8b2b5e0905494ea.png",
+          "caption": "Landscape camera interface"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "camera",
+        "reason": "Use the IMX219 camera for the viewfinder, photos, and video recording"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Save photos and videos to the user's $HOME/Camera folder or a specified capture folder",
+        "access": "read-write",
+        "scope": "shared-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1158430,
+    "sha256": "ebc0f6ebeaa0507963b290527f002443233b3fc20bff5b4d8467e0e3c5de71ee",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-camera-0.1.0-ebc0f6ebeaa0",
+      "asset": "sha256-ebc0f6ebeaa0507963b290527f002443233b3fc20bff5b4d8467e0e3c5de71ee.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-camera-0.1.0-ebc0f6ebeaa0/sha256-ebc0f6ebeaa0507963b290527f002443233b3fc20bff5b4d8467e0e3c5de71ee.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-camera",
+      "asset": "sha256-ebc0f6ebeaa0507963b290527f002443233b3fc20bff5b4d8467e0e3c5de71ee.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-camera/sha256-ebc0f6ebeaa0507963b290527f002443233b3fc20bff5b4d8467e0e3c5de71ee.deb"
+    }
+  }
+}
