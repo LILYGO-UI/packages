@@ -1,0 +1,73 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-gallery",
+    "version": "0.1.3",
+    "app_id": "cc.lilygo.ui.Gallery",
+    "title": "Gallery",
+    "summary": "Browse camera photos, videos, and screenshots on LILYGO UI.",
+    "description": "A responsive photo and video gallery for LILYGO UI with thumbnail browsing, MP4 playback, full-screen viewing, swipe navigation, and deletion.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "Multimedia",
+      "Graphics"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/gallery",
+    "homepage": "https://github.com/LILYGO-UI/gallery",
+    "assets": {
+      "icon": "assets/sha256/a1/a1141a0372a2d533eda3c552006de65ef8b25722a89b723454ca0d5731f831cf.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/56/56d14d98e2f2d4b9048a867a8f2657b099ffc58492d3db54384e74584baab4d0.png",
+          "caption": "Gallery photo grid"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "filesystem",
+        "reason": "Browse and delete camera photos, recordings, and screenshots.",
+        "access": "read-write",
+        "scope": "shared-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 40
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1207576,
+    "sha256": "0964fb5ea673291d1088e0036bba98fc422a0017f50c50fa7c710dfa8c4cf0ce",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-gallery-0.1.3-0964fb5ea673",
+      "asset": "sha256-0964fb5ea673291d1088e0036bba98fc422a0017f50c50fa7c710dfa8c4cf0ce.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-gallery-0.1.3-0964fb5ea673/sha256-0964fb5ea673291d1088e0036bba98fc422a0017f50c50fa7c710dfa8c4cf0ce.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-gallery",
+      "asset": "sha256-0964fb5ea673291d1088e0036bba98fc422a0017f50c50fa7c710dfa8c4cf0ce.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-gallery/sha256-0964fb5ea673291d1088e0036bba98fc422a0017f50c50fa7c710dfa8c4cf0ce.deb"
+    }
+  }
+}
