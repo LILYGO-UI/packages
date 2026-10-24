@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-picoclaw",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.PicoClaw",
+    "title": "PicoClaw",
+    "summary": "Private AI assistant for LILYGO UI",
+    "description": "Chat with PicoClaw, configure model providers, and manage the local PicoClaw gateway from a responsive LILYGO UI application.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Utilities",
+      "Network"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-picoclaw",
+    "homepage": "https://github.com/sipeed/picoclaw",
+    "assets": {
+      "icon": "assets/sha256/29/2948e9e463981ea403c3339e4624781d788b98390d0411149e7c4c48368f0690.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/ec/ecc29a178999771bf759898c1f7d88566ee9e19ddb68bf37b752f91d9651c1f0.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store application settings",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 40
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 13241574,
+    "sha256": "3018da93b8750ca4ae24eb020235fa084c5a9cb3a9ec0ebefbacae953627a6e2",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-picoclaw-0.1.0-3018da93b875",
+      "asset": "sha256-3018da93b8750ca4ae24eb020235fa084c5a9cb3a9ec0ebefbacae953627a6e2.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-picoclaw-0.1.0-3018da93b875/sha256-3018da93b8750ca4ae24eb020235fa084c5a9cb3a9ec0ebefbacae953627a6e2.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-picoclaw",
+      "asset": "sha256-3018da93b8750ca4ae24eb020235fa084c5a9cb3a9ec0ebefbacae953627a6e2.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-picoclaw/sha256-3018da93b8750ca4ae24eb020235fa084c5a9cb3a9ec0ebefbacae953627a6e2.deb"
+    }
+  }
+}
