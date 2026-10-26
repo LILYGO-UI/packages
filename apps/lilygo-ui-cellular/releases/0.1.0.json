@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-cellular",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Cellular",
+    "title": "Cellular",
+    "summary": "Cellular network, signal and GNSS monitoring for LILYGO",
+    "description": "An iOS-inspired cellular monitor for Nordic nRF9151 SLM modems with network and serving-cell information, signal measurements, SIM details, GNSS positioning and an explicit desktop demo.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Network",
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/cellular",
+    "homepage": "https://github.com/LILYGO-UI/cellular",
+    "assets": {
+      "icon": "assets/sha256/78/78147303b5c961a809aad09de456d775c54f35e6809cfe95e08999fc10c94907.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/e4/e464d7c99866fd77a5d057293c514af7b576c1b174d07bfcae8af73951ac4e6b.png",
+          "caption": "Cellular network and signal overview"
+        },
+        {
+          "path": "assets/sha256/d6/d637245a4f90202bcd1496c65cd9ae803d992e43fdd26abde4529d3834d09d08.png",
+          "caption": "Responsive landscape overview"
+        },
+        {
+          "path": "assets/sha256/33/33416495193fa8b5721e2f220f31e426c482f1d1a51dc0b85930e8787e63a6f9.png",
+          "caption": "GNSS position and satellite sky view"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Inspect cellular network connectivity and run network diagnostics"
+      },
+      {
+        "id": "serial",
+        "reason": "Communicate with a cellular modem over its serial AT command port"
+      },
+      {
+        "id": "location",
+        "reason": "Display the modem's GNSS position and visible satellites"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1151800,
+    "sha256": "69b0e93ac71926599143ae6165f165cada8f75951603093cb42d651f6b47ea6c",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-cellular-0.1.0-69b0e93ac719",
+      "asset": "sha256-69b0e93ac71926599143ae6165f165cada8f75951603093cb42d651f6b47ea6c.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-cellular-0.1.0-69b0e93ac719/sha256-69b0e93ac71926599143ae6165f165cada8f75951603093cb42d651f6b47ea6c.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-cellular",
+      "asset": "sha256-69b0e93ac71926599143ae6165f165cada8f75951603093cb42d651f6b47ea6c.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-cellular/sha256-69b0e93ac71926599143ae6165f165cada8f75951603093cb42d651f6b47ea6c.deb"
+    }
+  }
+}
