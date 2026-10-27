@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-telegram",
+    "version": "0.1.0",
+    "app_id": "cc.lilygo.ui.Telegram",
+    "title": "LilyChat",
+    "summary": "Unofficial Telegram client for LILYGO UI",
+    "description": "LilyChat is an unofficial Telegram client for LILYGO UI devices. It uses the Telegram API via TDLib and is part of the Telegram ecosystem, with no official affiliation.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Network"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-telegram",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-telegram",
+    "assets": {
+      "icon": "assets/sha256/94/94557f0ab5e58244f4b42c20a4f7ae86af69ebdd5bd63862b836c402a3d63b29.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/73/733a1a44c198595fe2cb5f3a9e1c0e9bb2774a0f9c343355a909f49f4575d08d.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store application settings",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1564196,
+    "sha256": "3ab1c611e114b9edec8c305d9666b64ca54747107702553039c0d1ffb56e500c",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-telegram-0.1.0-3ab1c611e114",
+      "asset": "sha256-3ab1c611e114b9edec8c305d9666b64ca54747107702553039c0d1ffb56e500c.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-telegram-0.1.0-3ab1c611e114/sha256-3ab1c611e114b9edec8c305d9666b64ca54747107702553039c0d1ffb56e500c.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-telegram",
+      "asset": "sha256-3ab1c611e114b9edec8c305d9666b64ca54747107702553039c0d1ffb56e500c.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-telegram/sha256-3ab1c611e114b9edec8c305d9666b64ca54747107702553039c0d1ffb56e500c.deb"
+    }
+  }
+}
