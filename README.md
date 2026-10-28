@@ -108,6 +108,36 @@ The generated Pages deployment exposes:
 The AppStore must verify the index SHA-256 from `root.json`, then verify every
 downloaded Debian package against the size and SHA-256 in the application detail.
 
+## APT repository
+
+GitHub Pages also publishes a standard Debian repository at the site root. The
+promotion workflow downloads every published central `.deb` into a content-
+addressed `pool/` path, generates `Packages`, `Packages.gz`, and `Packages.xz`
+under `dists/stable/main/binary-<architecture>/`, and writes a hashed
+`dists/stable/Release` file. Configure the `APT_GPG_PRIVATE_KEY` and
+`APT_GPG_KEY_ID` Actions secrets to publish a signed `InRelease` and the public
+key at `apt-keyring.gpg`. `APT_GPG_PRIVATE_KEY` is an ASCII-armored private key;
+`APT_GPG_KEY_ID` may be its fingerprint and is optional when the keyring contains
+only one signing key. The Pages workflow requires these signing credentials and
+will fail before deployment when they are missing.
+
+Install the public key and configure APT on a device with:
+
+```sh
+curl -fsSL https://lilygo-ui.github.io/packages/apt-keyring.gpg \
+  | sudo tee /usr/share/keyrings/lilygo-ui-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/lilygo-ui-archive-keyring.gpg] https://lilygo-ui.github.io/packages stable main" \
+  | sudo tee /etc/apt/sources.list.d/lilygo-ui.list
+sudo apt update
+sudo apt install lilygo-ui-store
+```
+
+Only `published` release records are placed in APT `Packages` indexes. Yanked
+and revoked records remain available through the AppStore history but are not
+offered to APT clients. The repository currently keeps one architecture per
+package version, matching the registry schema; publish separate versions when
+different device architectures need independent artifacts.
+
 ## Repository protection
 
 Enable repository forking and allow Actions to create and update releases. Enable

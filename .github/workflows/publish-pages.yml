@@ -8,6 +8,7 @@ on:
       - "assets/**"
       - "*.schema.json"
       - "scripts/**"
+      - "requirements.txt"
       - ".github/workflows/publish-pages.yml"
   workflow_dispatch:
 
@@ -67,6 +68,43 @@ jobs:
           --output public
           --snapshot-id "${{ github.sha }}"
           --base-url "https://${{ github.repository_owner }}.github.io/packages"
+
+      - name: Prepare APT signing
+        env:
+          APT_GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
+          APT_GPG_KEY_ID: ${{ secrets.APT_GPG_KEY_ID }}
+        run: |
+          if [[ -n "${APT_GPG_PRIVATE_KEY}" ]]; then
+            export GNUPGHOME="${RUNNER_TEMP}/apt-gnupg"
+            mkdir -m 700 -p "${GNUPGHOME}"
+            printf '%s\n' "${APT_GPG_PRIVATE_KEY}" | gpg --batch --import
+            key_id="${APT_GPG_KEY_ID}"
+            if [[ -z "${key_id}" ]]; then
+              key_id="$(gpg --batch --list-secret-keys --with-colons | awk -F: '$1 == "sec" { print $5; exit }')"
+            fi
+            if [[ -z "${key_id}" ]]; then
+              echo "APT_GPG_KEY_ID or a usable secret key is required" >&2
+              exit 1
+            fi
+            echo "GNUPGHOME=${GNUPGHOME}" >> "${GITHUB_ENV}"
+            echo "APT_GPG_KEY_ID=${key_id}" >> "${GITHUB_ENV}"
+          else
+            echo "APT_GPG_PRIVATE_KEY is required to publish the signed APT repository" >&2
+            exit 1
+          fi
+
+      - name: Build standard APT repository
+        run: |
+          generated_at="$(git show -s --format=%cI "${{ github.sha }}")"
+          python scripts/build_apt.py \
+            --root . \
+            --output public \
+            --generated-at "${generated_at}" \
+            --signing-key "${APT_GPG_KEY_ID}"
+
+      - name: Publish APT public key
+        run: |
+          gpg --batch --export "${APT_GPG_KEY_ID}" > public/apt-keyring.gpg
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
