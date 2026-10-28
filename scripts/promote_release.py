@@ -164,7 +164,12 @@ def main() -> int:
         return 1
     root = args.root.resolve()
     try:
-        changes = git_changed_paths(root, args.base_ref, args.head_ref)
+        # A full backfill does not depend on the event's previous commit. This
+        # also keeps workflow_dispatch and force-push recovery usable when that
+        # SHA is no longer reachable from the checkout.
+        changes = [] if args.all_published else git_changed_paths(
+            root, args.base_ref, args.head_ref
+        )
         changed = {path for _, path in changes}
         releases = validate_registry(root)
         selected = [

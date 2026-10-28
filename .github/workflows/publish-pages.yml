@@ -40,11 +40,23 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
         run: |
+          force_all=false
           if [[ -z "${BEFORE}" || "${BEFORE}" =~ ^0+$ ]]; then
-            echo "sha=$(git rev-list --max-parents=0 HEAD)" >> "${GITHUB_OUTPUT}"
+            base_sha="$(git rev-parse HEAD)"
+            force_all=true
+          elif git cat-file -e "${BEFORE}^{commit}" 2>/dev/null \
+              && git merge-base --is-ancestor "${BEFORE}" HEAD; then
+            base_sha="${BEFORE}"
           else
-            echo "sha=${BEFORE}" >> "${GITHUB_OUTPUT}"
+            # A force-push or amended commit can leave event.before missing or
+            # outside the new history. A full backfill avoids skipping releases
+            # from commits that are no longer reachable from this checkout.
+            base_sha="$(git rev-parse HEAD)"
+            force_all=true
+            echo "event.before ${BEFORE} is unavailable or not an ancestor; promoting all published assets" >&2
           fi
+          echo "sha=${base_sha}" >> "${GITHUB_OUTPUT}"
+          echo "force_all=${force_all}" >> "${GITHUB_OUTPUT}"
 
       - name: Validate canonical registry
         run: python scripts/validate_registry.py --root .
@@ -52,14 +64,17 @@ jobs:
       - name: Promote reviewed Debian assets
         env:
           GH_TOKEN: ${{ github.token }}
-          PROMOTE_ALL: ${{ github.event_name == 'workflow_dispatch' && '--all-published' || '' }}
-        run: >-
-          python scripts/promote_release.py
-          --root .
-          --base-ref "${{ steps.base.outputs.sha }}"
-          --head-ref "${{ github.sha }}"
-          --repository "${{ github.repository }}"
-          ${PROMOTE_ALL}
+        run: |
+          args=(
+            --root .
+            --base-ref "${{ steps.base.outputs.sha }}"
+            --head-ref "${{ github.sha }}"
+            --repository "${{ github.repository }}"
+          )
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" || "${{ steps.base.outputs.force_all }}" == "true" ]]; then
+            args+=(--all-published)
+          fi
+          python scripts/promote_release.py "${args[@]}"
 
       - name: Build immutable registry snapshot
         run: >-

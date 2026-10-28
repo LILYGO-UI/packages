@@ -185,6 +185,24 @@ class RepublishTests(unittest.TestCase):
         with self.assertRaisesRegex(RegistryError, "existing releases may only be yanked"):
             validate_pull_request(self.root, self.base, "alice")
 
+    def test_all_published_does_not_require_an_existing_base_commit(self) -> None:
+        self.commit(self.replacement())
+        with (
+            patch.dict("os.environ", {"GH_TOKEN": "test-token"}),
+            patch("sys.argv", [
+                "promote_release.py",
+                "--root", str(self.root),
+                "--base-ref", "missing-base-commit",
+                "--repository", "LILYGO-UI/packages",
+                "--all-published",
+            ]),
+            patch("scripts.promote_release.git_changed_paths", side_effect=AssertionError),
+            patch("scripts.promote_release.ensure_central_asset") as ensure,
+            patch("scripts.promote_release.verify_central_assets"),
+        ):
+            self.assertEqual(promote_main(), 0)
+        ensure.assert_called_once()
+
     def test_promotion_selects_modified_published_release_and_keeps_old_asset(self) -> None:
         release = self.replacement()
         self.commit(release)
