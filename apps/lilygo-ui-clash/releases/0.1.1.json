@@ -1,0 +1,71 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-clash",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.Clash",
+    "title": "Clash",
+    "summary": "Lightweight mihomo controller for LILYGO UI",
+    "description": "Touch-friendly Clash client for monitoring and controlling a mihomo Meta core",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Network",
+      "Utilities"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-clash",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-clash",
+    "assets": {
+      "icon": "assets/sha256/08/08b47c2ad6dc5b1a22043ba096ce137ef51219d5f2aca2846c5f03ec560c9801.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/a8/a865f83534c5ead2eb1fe067cac4d9f319c65e4be2a38c595ff0226d9afaf54f.png",
+          "caption": "Main application screen"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Connect to the local mihomo external controller"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 18425738,
+    "sha256": "80fc7c24a06ce2c697942bd88971545cfa79786b3bbb58256d8d56ad354f2c84",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-clash-0.1.1-80fc7c24a06c",
+      "asset": "sha256-80fc7c24a06ce2c697942bd88971545cfa79786b3bbb58256d8d56ad354f2c84.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-clash-0.1.1-80fc7c24a06c/sha256-80fc7c24a06ce2c697942bd88971545cfa79786b3bbb58256d8d56ad354f2c84.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-clash",
+      "asset": "sha256-80fc7c24a06ce2c697942bd88971545cfa79786b3bbb58256d8d56ad354f2c84.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-clash/sha256-80fc7c24a06ce2c697942bd88971545cfa79786b3bbb58256d8d56ad354f2c84.deb"
+    }
+  }
+}
