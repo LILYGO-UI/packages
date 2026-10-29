@@ -67,10 +67,16 @@ base revision.
 ```text
 apps/<package>/app.json
 apps/<package>/releases/<version>.json
+runtimes/<package>/runtime.json
+runtimes/<package>/releases/<version>.json
 assets/sha256/<prefix>/<sha256>.<extension>
 ```
 
-Application ownership is established by the first reviewed `app.json`.
+Application ownership is established by the first reviewed `app.json`. Runtime
+ownership is established by the first reviewed `runtime.json`; runtime release
+records use `runtime-release.schema.json` and intentionally omit AppStore
+identity and visual assets. Runtime records are published to APT but are not
+included in the AppStore `apps` index or application detail documents.
 `lpm unpublish` creates another pull request that changes only the selected
 release status to `yanked` and adds the public reason. The historical record
 and central Debian asset remain.
@@ -133,10 +139,21 @@ sudo apt install lilygo-ui-store
 ```
 
 Only `published` release records are placed in APT `Packages` indexes. Yanked
-and revoked records remain available through the AppStore history but are not
-offered to APT clients. The repository currently keeps one architecture per
-package version, matching the registry schema; publish separate versions when
-different device architectures need independent artifacts.
+and revoked application records remain available through AppStore history but
+are not offered to APT clients. Runtime records remain in the reviewed registry
+history and follow the same APT status rule. The repository currently keeps one
+architecture per package version, matching the registry schema; publish
+separate versions when different device architectures need independent
+artifacts.
+
+Runtime packages follow the same central release convention as applications:
+the Debian asset is stored in `apt-pool-<package>` and indexed under the
+declared architecture. Runtime package names follow Debian package naming and
+may be outside the `lilygo-ui-*` application namespace, such as `meshtasticd`.
+A runtime manifest contains package/version metadata and
+exactly one compatibility architecture; optional source, homepage, and display
+metadata can document the runtime. It does not need an application ID, icon,
+screenshots, permissions, or launcher order.
 
 ## Repository protection
 

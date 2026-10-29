@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+  "title": "LILYGO Registry Runtime Release Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "status", "submitted_by", "manifest", "artifact"],
+  "properties": {
+    "$schema": {
+      "const": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json"
+    },
+    "schema_version": { "type": "integer", "const": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["published", "yanked", "revoked"]
+    },
+    "submitted_by": {
+      "type": "string",
+      "pattern": "^(?=.{1,39}$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+    },
+    "manifest": { "$ref": "#/$defs/manifest" },
+    "artifact": { "$ref": "#/$defs/artifact" },
+    "yank": { "$ref": "#/$defs/yank" },
+    "revocation": { "$ref": "#/$defs/revocation" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "yanked" } } },
+      "then": { "required": ["yank"] }
+    },
+    {
+      "if": { "properties": { "status": { "const": "revoked" } } },
+      "then": { "required": ["revocation"] }
+    }
+  ],
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "tag", "asset", "url"],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "tag": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "asset": { "type": "string", "pattern": "^sha256-[a-f0-9]{64}\\.deb$" },
+        "url": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["architecture", "size", "sha256", "media_type", "source", "central"],
+      "properties": {
+        "architecture": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "not": { "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]" }
+        },
+        "size": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "media_type": { "const": "application/vnd.debian.binary-package" },
+        "source": { "$ref": "#/$defs/endpoint" },
+        "central": { "$ref": "#/$defs/endpoint" }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "$schema", "schema_version", "package", "version", "compatibility"
+      ],
+      "properties": {
+        "$schema": {
+          "const": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json"
+        },
+        "schema_version": { "type": "integer", "const": 1 },
+        "package": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-z0-9](?:[a-z0-9+.-]*[a-z0-9])?$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(?:[0-9]+:)?[0-9][A-Za-z0-9.+~]*(?:-[A-Za-z0-9.+~]+)?$"
+        },
+        "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "license": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "source_repo": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "homepage": { "type": "string", "format": "uri", "pattern": "^https://" },
+        "compatibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["architectures"],
+          "properties": {
+            "architectures": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "maxLength": 64,
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+                "not": { "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "yank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason", "requested_by"],
+      "properties": {
+        "reason": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "requested_by": { "type": "string", "pattern": "^(?=.{1,39}$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$" }
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": { "reason": { "type": "string", "minLength": 1, "maxLength": 500 } }
+    }
+  }
+}

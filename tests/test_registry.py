@@ -28,6 +28,8 @@ from scripts.registry_common import (
 SCHEMAS = (
     "publish.schema.json",
     "app.schema.json",
+    "runtime.schema.json",
+    "runtime-release.schema.json",
     "registry-release.schema.json",
     "registry-root.schema.json",
     "registry-index.schema.json",

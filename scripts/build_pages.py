@@ -76,6 +76,8 @@ def build_pages(
     releases = validate_registry(root)
     grouped: dict[str, list[Any]] = {}
     for item in releases:
+        if item.kind != "app":
+            continue
         grouped.setdefault(str(item.app["package"]), []).append(item)
 
     snapshot_root = output / "v1" / "snapshots" / snapshot_id

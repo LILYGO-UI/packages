@@ -171,6 +171,8 @@ def main() -> int:
             root, args.base_ref, args.head_ref
         )
         changed = {path for _, path in changes}
+        # Applications and runtimes share the same content-addressed central
+        # release convention, so promotion can validate both uniformly.
         releases = validate_registry(root)
         selected = [
             item

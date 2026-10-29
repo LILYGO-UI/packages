@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime.schema.json",
+  "title": "LILYGO Registry Runtime Ownership",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "package", "owners"],
+  "properties": {
+    "$schema": {
+      "const": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime.schema.json"
+    },
+    "schema_version": { "type": "integer", "const": 1 },
+    "package": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[a-z0-9](?:[a-z0-9+.-]*[a-z0-9])?$"
+    },
+    "owners": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(?=.{1,39}$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+      }
+    }
+  }
+}

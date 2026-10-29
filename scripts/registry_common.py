@@ -30,6 +30,7 @@ class ReleaseFile:
     path: Path
     app: dict[str, Any]
     release: dict[str, Any]
+    kind: str = "app"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -84,17 +85,28 @@ def iter_releases(
 ) -> Iterable[ReleaseFile]:
     schema_root = schema_root or root
     apps_root = root / "apps"
-    if not apps_root.exists():
-        return
-    for app_path in sorted(apps_root.glob("*/app.json")):
-        app = load_json(app_path)
-        validate_schema(schema_root, "app.schema.json", app, app_path)
-        package = str(app["package"])
-        if app_path.parent.name != package:
-            raise RegistryError(f"application directory must match package: {app_path}")
-        for release_path in sorted((app_path.parent / "releases").glob("*.json")):
-            release = load_json(release_path)
-            yield ReleaseFile(release_path, app, release)
+    if apps_root.exists():
+        for app_path in sorted(apps_root.glob("*/app.json")):
+            app = load_json(app_path)
+            validate_schema(schema_root, "app.schema.json", app, app_path)
+            package = str(app["package"])
+            if app_path.parent.name != package:
+                raise RegistryError(f"application directory must match package: {app_path}")
+            for release_path in sorted((app_path.parent / "releases").glob("*.json")):
+                release = load_json(release_path)
+                yield ReleaseFile(release_path, app, release, "app")
+
+    runtimes_root = root / "runtimes"
+    if runtimes_root.exists():
+        for runtime_path in sorted(runtimes_root.glob("*/runtime.json")):
+            runtime = load_json(runtime_path)
+            validate_schema(schema_root, "runtime.schema.json", runtime, runtime_path)
+            package = str(runtime["package"])
+            if runtime_path.parent.name != package:
+                raise RegistryError(f"runtime directory must match package: {runtime_path}")
+            for release_path in sorted((runtime_path.parent / "releases").glob("*.json")):
+                release = load_json(release_path)
+                yield ReleaseFile(release_path, runtime, release, "runtime")
 
 
 def validate_registry(
@@ -103,27 +115,35 @@ def validate_registry(
     schema_root = schema_root or root
     releases = list(iter_releases(root, schema_root=schema_root))
     app_ids: dict[str, str] = {}
+    package_kinds: dict[str, str] = {}
     for item in releases:
         validate_release(root, item, schema_root=schema_root)
-        app_id = str(item.app["app_id"])
-        package = str(item.app["package"])
-        previous = app_ids.setdefault(app_id.lower(), package)
-        if previous != package:
+        package = str(item.app["package"]).lower()
+        previous_kind = package_kinds.setdefault(package, item.kind)
+        if previous_kind != item.kind:
             raise RegistryError(
-                f"app_id {app_id} is owned by both {previous} and {package}"
+                f"package {package} is declared as both {previous_kind} and {item.kind}"
             )
+        if item.kind == "app":
+            app_id = str(item.app["app_id"])
+            previous = app_ids.setdefault(app_id.lower(), package)
+            if previous != package:
+                raise RegistryError(
+                    f"app_id {app_id} is owned by both {previous} and {package}"
+                )
     return releases
 
 
 def validate_release(
     root: Path, item: ReleaseFile, *, schema_root: Path | None = None
 ) -> None:
-    schema_root = schema_root or root
+    if item.kind == "runtime":
+        return _validate_runtime_release(root, item, schema_root=schema_root)
+    return _validate_app_release(root, item, schema_root=schema_root)
+
+
+def _validate_state_fields(item: ReleaseFile) -> None:
     release = item.release
-    manifest = release.get("manifest")
-    validate_schema(schema_root, "registry-release.schema.json", release, item.path)
-    validate_schema(schema_root, "publish.schema.json", manifest, item.path)
-    assert isinstance(manifest, dict)
     status = release["status"]
     state_fields = {key for key in ("yank", "revocation") if key in release}
     expected_state_fields = {
@@ -135,6 +155,76 @@ def validate_release(
         raise RegistryError(
             f"release state fields do not match status {status}: {item.path}"
         )
+
+
+def _validate_artifact(root: Path, item: ReleaseFile) -> None:
+    release = item.release
+    manifest = release["manifest"]
+    package = str(item.app["package"])
+    artifact = release["artifact"]
+    digest = str(artifact["sha256"])
+    asset_name = f"sha256-{digest}.deb"
+    source = artifact["source"]
+    central = artifact["central"]
+    if source["asset"] != asset_name or central["asset"] != asset_name:
+        raise RegistryError(
+            f"artifact asset name must be content-addressed: {item.path}"
+        )
+    if source["repository"].lower() != f"{release['submitted_by']}/packages".lower():
+        raise RegistryError(
+            f"source repository must be the submitter's packages fork: {item.path}"
+        )
+    expected_source = release_download_url(
+        source["repository"], source["tag"], asset_name
+    )
+    if source["url"] != expected_source:
+        raise RegistryError(f"source artifact URL is not canonical: {item.path}")
+    expected_tag = f"apt-pool-{package}"
+    expected_central = release_download_url(UPSTREAM, expected_tag, asset_name)
+    if (
+        central["repository"].lower() != UPSTREAM.lower()
+        or central["tag"] != expected_tag
+        or central["url"] != expected_central
+    ):
+        raise RegistryError(
+            f"central artifact destination is not canonical: {item.path}"
+        )
+    if artifact["architecture"] not in manifest["compatibility"]["architectures"]:
+        raise RegistryError(
+            f"artifact architecture is not declared by manifest: {item.path}"
+        )
+
+
+def _validate_runtime_release(
+    root: Path, item: ReleaseFile, *, schema_root: Path | None = None
+) -> None:
+    schema_root = schema_root or root
+    release = item.release
+    manifest = release.get("manifest")
+    validate_schema(schema_root, "runtime-release.schema.json", release, item.path)
+    _validate_state_fields(item)
+    assert isinstance(manifest, dict)
+    package = str(item.app["package"])
+    if manifest["package"] != package:
+        raise RegistryError(f"runtime release identity does not match {item.path.parent.parent / 'runtime.json'}")
+    if item.path.stem != str(manifest["version"]):
+        raise RegistryError(f"release filename must match manifest version: {item.path}")
+    owners = [str(owner).lower() for owner in item.app["owners"]]
+    if len(owners) != len(set(owners)):
+        raise RegistryError(f"runtime owners must be unique ignoring case: {item.path}")
+    _validate_artifact(root, item)
+
+
+def _validate_app_release(
+    root: Path, item: ReleaseFile, *, schema_root: Path | None = None
+) -> None:
+    schema_root = schema_root or root
+    release = item.release
+    manifest = release.get("manifest")
+    validate_schema(schema_root, "registry-release.schema.json", release, item.path)
+    validate_schema(schema_root, "publish.schema.json", manifest, item.path)
+    assert isinstance(manifest, dict)
+    _validate_state_fields(item)
     package = str(item.app["package"])
     owners = [str(owner).lower() for owner in item.app["owners"]]
     if len(owners) != len(set(owners)):
@@ -432,7 +522,7 @@ def validate_pull_request(
         for item in validate_registry(root, schema_root=schema_root)
     }
     referenced_assets: set[str] = set()
-    added_apps: set[str] = set()
+    added_owners: set[str] = set()
     added_release_packages: set[str] = set()
 
     for status, path in changes:
@@ -442,20 +532,20 @@ def validate_pull_request(
                     f"content-addressed assets may only be added: {path}"
                 )
             continue
-        match = re.fullmatch(r"apps/([^/]+)/app\.json", path)
-        if match:
+        match = re.fullmatch(r"(apps|runtimes)/([^/]+)/(app|runtime)\.json", path)
+        if match and ((match.group(1), match.group(3)) in (("apps", "app"), ("runtimes", "runtime"))):
             if status != "A" or git_json(root, base_ref, path) is not None:
                 raise RegistryError(
                     f"ownership files cannot be modified by publishing PRs: {path}"
                 )
-            app = load_json(root / path)
-            if app["owners"] != [author] or app["package"] != match.group(1):
+            ownership = load_json(root / path)
+            if ownership["owners"] != [author] or ownership["package"] != match.group(2):
                 raise RegistryError(
-                    f"new application owner must be the PR author: {path}"
+                    f"new {'application' if match.group(3) == 'app' else 'runtime'} owner must be the PR author: {path}"
                 )
-            added_apps.add(str(app["package"]))
+            added_owners.add(str(ownership["package"]))
             continue
-        match = re.fullmatch(r"apps/([^/]+)/releases/([^/]+)\.json", path)
+        match = re.fullmatch(r"(apps|runtimes)/([^/]+)/(?:releases)/([^/]+)\.json", path)
         if not match or path not in releases:
             raise RegistryError(f"publishing PR contains an unsupported path: {path}")
         item = releases[path]
@@ -477,9 +567,12 @@ def validate_pull_request(
                     raise RegistryError(
                         f"only yanked releases may be republished: {path}"
                     )
+                identity_fields = ("package", "version")
+                if item.kind == "app":
+                    identity_fields = (*identity_fields, "app_id")
                 if any(
                     item.release["manifest"][field] != previous["manifest"][field]
-                    for field in ("package", "version", "app_id")
+                    for field in identity_fields
                 ) or (
                     item.release["artifact"]["architecture"]
                     != previous["artifact"]["architecture"]
@@ -504,12 +597,13 @@ def validate_pull_request(
         if item.release["status"] == "published":
             if item.release["submitted_by"].lower() != author.lower():
                 raise RegistryError(f"submitted_by must match the PR author: {path}")
-            manifest = item.release["manifest"]
-            referenced_assets.add(str(manifest["assets"]["icon"]))
-            referenced_assets.update(
-                str(screenshot["path"])
-                for screenshot in manifest["assets"]["screenshots"]
-            )
+            if item.kind == "app":
+                manifest = item.release["manifest"]
+                referenced_assets.add(str(manifest["assets"]["icon"]))
+                referenced_assets.update(
+                    str(screenshot["path"])
+                    for screenshot in manifest["assets"]["screenshots"]
+                )
 
     added_assets = {
         path for status, path in changes if status == "A" and path.startswith("assets/")
@@ -517,8 +611,8 @@ def validate_pull_request(
     if not added_assets.issubset(referenced_assets):
         unused = ", ".join(sorted(added_assets - referenced_assets))
         raise RegistryError(f"publishing PR adds unreferenced assets: {unused}")
-    if added_apps != added_release_packages.intersection(added_apps):
-        missing = ", ".join(sorted(added_apps - added_release_packages))
+    if added_owners != added_release_packages.intersection(added_owners):
+        missing = ", ".join(sorted(added_owners - added_release_packages))
         raise RegistryError(
             f"new ownership files require a release in the same PR: {missing}"
         )

@@ -273,6 +273,8 @@ def build_apt_repository(
     if not component or "/" in component or ".." in Path(component).parts:
         raise RegistryError("component must be a non-empty repository path component")
 
+    # validate_registry returns both application and runtime records. Both use
+    # the same Debian artifact contract and therefore share one APT pool.
     releases = [item for item in validate_registry(root) if item.release["status"] == "published"]
     by_arch: dict[str, list[ReleaseFile]] = defaultdict(list)
     pool_paths: dict[str, Path] = {}
