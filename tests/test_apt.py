@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.build_apt import build_apt_repository
+from scripts.build_apt import _sign_release, build_apt_repository
 from scripts.registry_common import release_download_url
 from tests.test_registry import make_registry, write_json
 
@@ -79,6 +79,36 @@ class AptRepositoryTests(unittest.TestCase):
                     release_text,
                 )
                 self.assertIn(f"Architectures: {architecture}", release_text)
+
+    def test_release_signatures_force_sha256_digest(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name) / "public"
+            release = root / "dists" / "stable" / "Release"
+            release.parent.mkdir(parents=True)
+            release.write_text("Origin: LILYGO UI\n", encoding="utf-8")
+            commands: list[list[str]] = []
+
+            def fake_run(command, **kwargs):
+                commands.append(list(command))
+                if command[-1:] == ["demo-key"]:
+                    return type(
+                        "Result",
+                        (),
+                        {"returncode": 0, "stdout": b"PUBLIC KEY", "stderr": b""},
+                    )()
+                output = Path(command[command.index("--output") + 1])
+                output.write_text("signed", encoding="utf-8")
+                return type("Result", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
+            with patch("scripts.build_apt.subprocess.run", side_effect=fake_run):
+                _sign_release(release, "demo-key")
+
+            self.assertEqual(len(commands), 3)
+            for command in commands[:2]:
+                self.assertIn("--digest-algo", command)
+                self.assertEqual(command[command.index("--digest-algo") + 1], "SHA256")
+            self.assertIn("--clearsign", commands[0])
+            self.assertIn("--detach-sign", commands[1])
 
     def test_architecture_independent_packages_are_in_concrete_indexes(self) -> None:
         with tempfile.TemporaryDirectory() as name:
