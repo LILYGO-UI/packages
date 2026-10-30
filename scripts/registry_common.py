@@ -467,7 +467,11 @@ def validate_remote_artifacts(
 
 
 def git_changed_paths(
-    root: Path, base_ref: str, head_ref: str = "HEAD"
+    root: Path,
+    base_ref: str,
+    head_ref: str = "HEAD",
+    *,
+    allow_renames: bool = False,
 ) -> list[tuple[str, str]]:
     result = subprocess.run(
         ["git", "diff", "--name-status", "--find-renames", base_ref, head_ref],
@@ -481,7 +485,14 @@ def git_changed_paths(
     changes: list[tuple[str, str]] = []
     for line in result.stdout.splitlines():
         fields = line.split("\t")
-        if len(fields) != 2 or fields[0].startswith("R"):
+        if fields and fields[0].startswith("R"):
+            if not allow_renames or len(fields) != 3:
+                raise RegistryError(
+                    f"renames and malformed changes are not allowed: {line}"
+                )
+            changes.append(("A", fields[2]))
+            continue
+        if len(fields) != 2:
             raise RegistryError(
                 f"renames and malformed changes are not allowed: {line}"
             )

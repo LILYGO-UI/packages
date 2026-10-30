@@ -168,7 +168,7 @@ def main() -> int:
         # also keeps workflow_dispatch and force-push recovery usable when that
         # SHA is no longer reachable from the checkout.
         changes = [] if args.all_published else git_changed_paths(
-            root, args.base_ref, args.head_ref
+            root, args.base_ref, args.head_ref, allow_renames=True
         )
         changed = {path for _, path in changes}
         # Applications and runtimes share the same content-addressed central

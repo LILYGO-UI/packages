@@ -20,6 +20,7 @@ from scripts.registry_common import (
     _read_debian_control_fields,
     _validate_debian_archive,
     debian_version_compare,
+    git_changed_paths,
     release_download_url,
     validate_pull_request,
     validate_registry,
@@ -136,6 +137,35 @@ def make_registry(
 
 
 class RegistryValidationTests(unittest.TestCase):
+    def test_git_changed_paths_can_normalize_renames_for_promotion(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            old_path = root / "apps/demo/releases/1.0.0.json"
+            new_path = root / "runtimes/demo/releases/1.0.0.json"
+            old_path.parent.mkdir(parents=True)
+            old_path.write_text("{}\n", encoding="utf-8")
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"], cwd=root, check=True
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "base"], cwd=root, check=True)
+            base = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True
+            ).strip()
+            new_path.parent.mkdir(parents=True)
+            old_path.rename(new_path)
+            subprocess.run(["git", "add", "-A"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "rename"], cwd=root, check=True)
+
+            with self.assertRaisesRegex(RegistryError, "renames and malformed changes"):
+                git_changed_paths(root, base)
+            self.assertEqual(
+                git_changed_paths(root, base, allow_renames=True),
+                [("A", "runtimes/demo/releases/1.0.0.json")],
+            )
+
     def test_schemas_are_valid_draft_2020_12(self) -> None:
         root = Path(__file__).resolve().parents[1]
         for schema in SCHEMAS:
