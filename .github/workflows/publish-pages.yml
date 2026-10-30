@@ -122,6 +122,25 @@ jobs:
         run: |
           gpg --batch --export "${APT_GPG_KEY_ID}" > public/apt-keyring.gpg
 
+      - name: Verify APT metadata before deployment
+        run: |
+          release="public/dists/stable/Release"
+          inrelease="public/dists/stable/InRelease"
+          keyring="public/apt-keyring.gpg"
+          extracted="${RUNNER_TEMP}/lilygo-ui-release"
+
+          test -s "${release}"
+          test -s "${inrelease}"
+          test -s "${keyring}"
+          grep -q '^SHA256:$' "${release}"
+          grep -q '^ [0-9a-f]\{64\} [0-9][0-9]* main/binary-' "${release}"
+
+          # Verify the signature and make sure InRelease carries the exact
+          # Release payload that contains the SHA-256 entries.
+          gpgv --keyring "${keyring}" "${inrelease}"
+          gpg --batch --no-options --decrypt "${inrelease}" > "${extracted}"
+          cmp -- "${release}" "${extracted}"
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
