@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-mesa-vc4",
+    "version": "26.2.0-2",
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ]
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 2989996,
+    "sha256": "1cb9ca3e380ede967e1bbba232a2044951c17e469eda822fcbac706c4df5fc7c",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-mesa-vc4-26.2.0-2-1cb9ca3e380e",
+      "asset": "sha256-1cb9ca3e380ede967e1bbba232a2044951c17e469eda822fcbac706c4df5fc7c.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-mesa-vc4-26.2.0-2-1cb9ca3e380e/sha256-1cb9ca3e380ede967e1bbba232a2044951c17e469eda822fcbac706c4df5fc7c.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-mesa-vc4",
+      "asset": "sha256-1cb9ca3e380ede967e1bbba232a2044951c17e469eda822fcbac706c4df5fc7c.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-mesa-vc4/sha256-1cb9ca3e380ede967e1bbba232a2044951c17e469eda822fcbac706c4df5fc7c.deb"
+    }
+  }
+}

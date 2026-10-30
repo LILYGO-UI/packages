@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime.schema.json",
+  "schema_version": 1,
+  "package": "lilygo-ui-mesa-vc4",
+  "owners": [
+    "lbuque"
+  ]
+}
