@@ -192,7 +192,6 @@ def _write_release(
         f"Architectures: {' '.join(architectures)}",
         f"Components: {component}",
         "Description: LILYGO UI Debian packages",
-        "",
         "MD5Sum:",
     ]
     for path, name in zip(files, relative):

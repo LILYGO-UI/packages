@@ -66,6 +66,10 @@ class AptRepositoryTests(unittest.TestCase):
                 digest = hashlib.sha256(index.read_bytes()).hexdigest()
                 release_text = release.read_text()
                 self.assertIn("SHA256:", release_text)
+                self.assertNotIn(
+                    "Description: LILYGO UI Debian packages\n\nMD5Sum:",
+                    release_text,
+                )
                 prefix = f" main/binary-{architecture}"
                 self.assertIn(f" {digest} {index.stat().st_size}{prefix}/Packages", release_text)
                 gzip_digest = hashlib.sha256(compressed_gzip.read_bytes()).hexdigest()
