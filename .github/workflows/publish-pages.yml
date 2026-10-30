@@ -137,10 +137,10 @@ jobs:
 
           # Verify the signature and make sure InRelease carries the exact
           # Release payload that contains the SHA-256 entries.
-          gpgv --keyring "${keyring}" "${inrelease}"
-          digest_algo="$(gpg --batch --list-packets "${inrelease}" 2>&1 \
-            | sed -n 's/.*digest algo \([0-9][0-9]*\).*/\1/p' \
-            | head -n 1)"
+          verification="$(gpgv --status-fd=1 --keyring "${keyring}" "${inrelease}" 2>&1)"
+          printf '%s\n' "${verification}"
+          digest_algo="$(printf '%s\n' "${verification}" \
+            | awk '$1 == "[GNUPG:]" && $2 == "VALIDSIG" { print $10; exit }')"
           case "${digest_algo}" in
             8|9|10|11) ;;
             *)
