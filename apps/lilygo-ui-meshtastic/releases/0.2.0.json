@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-meshtastic",
+    "version": "0.2.0",
+    "app_id": "cc.lilygo.ui.Meshtastic",
+    "title": "Meshtastic",
+    "summary": "Meshtastic mesh network client for LILYGO UI",
+    "description": "A responsive Meshtastic client for browsing nodes, channels, positions, telemetry, and messages through meshtasticd over TCP, with persistent conversations, reliable message status, device configuration and cached OpenStreetMap maps.",
+    "authors": [
+      {
+        "name": "LILYGO",
+        "github": "LILYGO"
+      }
+    ],
+    "categories": [
+      "Network"
+    ],
+    "license": "GPL-3.0-only",
+    "source_repo": "https://github.com/LILYGO-UI/meshtastic",
+    "homepage": "https://github.com/LILYGO-UI/meshtastic",
+    "assets": {
+      "icon": "assets/sha256/f4/f41ea28ad880ca1dacd42abcbafb92be6cb5b80a62ffbadbc3d2ea60bf0a4513.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/17/17e04f2620f1ec827408dc2864f4ad73fe95bfa5156d8faf0c381bcabaa35fff.png",
+          "caption": "Meshtastic connection dashboard"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Connect to meshtasticd and exchange Meshtastic mesh network data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store conversations, node and telemetry history, radio configuration and cached map tiles",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 40
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 2624512,
+    "sha256": "2ac7d6a5e1ca890b4064138bc7bd0bc61626749ffcbf56856a2b692a079d2490",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-meshtastic-0.2.0-2ac7d6a5e1ca",
+      "asset": "sha256-2ac7d6a5e1ca890b4064138bc7bd0bc61626749ffcbf56856a2b692a079d2490.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-meshtastic-0.2.0-2ac7d6a5e1ca/sha256-2ac7d6a5e1ca890b4064138bc7bd0bc61626749ffcbf56856a2b692a079d2490.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-meshtastic",
+      "asset": "sha256-2ac7d6a5e1ca890b4064138bc7bd0bc61626749ffcbf56856a2b692a079d2490.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-meshtastic/sha256-2ac7d6a5e1ca890b4064138bc7bd0bc61626749ffcbf56856a2b692a079d2490.deb"
+    }
+  }
+}
