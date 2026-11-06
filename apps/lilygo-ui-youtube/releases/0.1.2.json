@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-youtube",
+    "version": "0.1.2",
+    "app_id": "cc.lilygo.ui.YouTube",
+    "title": "YouTube",
+    "summary": "Search and watch YouTube on LILYGO devices",
+    "description": "A standalone YouTube client with native search and video playback.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Multimedia"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/template",
+    "homepage": "https://github.com/LILYGO-UI/template",
+    "assets": {
+      "icon": "assets/sha256/9d/9d979c172fbb95a126b9059bb08a3e7306810331d623e066f558a1b5dd973714.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/ca/ca4e7e96a16b9745eff1d7d2b008a4706284aeabb63e668530e5e3d58a911254.png",
+          "caption": "Native YouTube video playback"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "network",
+        "reason": "Access online application data"
+      },
+      {
+        "id": "filesystem",
+        "reason": "Store application settings",
+        "access": "read-write",
+        "scope": "app-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1219318,
+    "sha256": "6d3834224b8020ac5d39e54526f4acadc4ff038e9c5dd0607d9cc8cfa25ef9ce",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-youtube-0.1.2-6d3834224b80",
+      "asset": "sha256-6d3834224b8020ac5d39e54526f4acadc4ff038e9c5dd0607d9cc8cfa25ef9ce.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-youtube-0.1.2-6d3834224b80/sha256-6d3834224b8020ac5d39e54526f4acadc4ff038e9c5dd0607d9cc8cfa25ef9ce.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-youtube",
+      "asset": "sha256-6d3834224b8020ac5d39e54526f4acadc4ff038e9c5dd0607d9cc8cfa25ef9ce.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-youtube/sha256-6d3834224b8020ac5d39e54526f4acadc4ff038e9c5dd0607d9cc8cfa25ef9ce.deb"
+    }
+  }
+}
