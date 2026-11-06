@@ -1,0 +1,76 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/publish.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-ui-music",
+    "version": "0.1.1",
+    "app_id": "cc.lilygo.ui.Music",
+    "title": "Music",
+    "summary": "A local music player with an iOS-inspired interface",
+    "description": "Browse and play local music with responsive portrait and landscape layouts, playback controls, seeking, volume, shuffle, repeat and favorites.",
+    "authors": [
+      {
+        "name": "lbuque",
+        "email": "110239031@qq.com"
+      }
+    ],
+    "categories": [
+      "Multimedia"
+    ],
+    "license": "MIT",
+    "source_repo": "https://github.com/LILYGO-UI/lilygo-ui-music",
+    "homepage": "https://github.com/LILYGO-UI/lilygo-ui-music",
+    "assets": {
+      "icon": "assets/sha256/0e/0ebbf8654f32ce700e6423ef9df68d472c4af0890e44f80e93a11e68ecdb1b57.png",
+      "screenshots": [
+        {
+          "path": "assets/sha256/6f/6f74b01886865de5279747f1f063a726d452fde5d26ebfd145ec2e82813a879c.png",
+          "caption": "Music library and player in portrait layout"
+        },
+        {
+          "path": "assets/sha256/c9/c9039dad95f9a7f77d717cb5942e203b350c15c694eddd5a4b0d07a4352f9388.png",
+          "caption": "Music library and player in landscape layout"
+        }
+      ]
+    },
+    "permissions": [
+      {
+        "id": "filesystem",
+        "reason": "Read local music files from the configured music folder",
+        "access": "read",
+        "scope": "shared-data"
+      }
+    ],
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ],
+      "min_appkit_version": "0.1.0"
+    },
+    "launcher": {
+      "order": 90
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 1155854,
+    "sha256": "4afb3c8bbdda955627f90e4cd688b7213d2aac997dd729e0ae31614fdb6df96c",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-ui-music-0.1.1-4afb3c8bbdda",
+      "asset": "sha256-4afb3c8bbdda955627f90e4cd688b7213d2aac997dd729e0ae31614fdb6df96c.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-ui-music-0.1.1-4afb3c8bbdda/sha256-4afb3c8bbdda955627f90e4cd688b7213d2aac997dd729e0ae31614fdb6df96c.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-ui-music",
+      "asset": "sha256-4afb3c8bbdda955627f90e4cd688b7213d2aac997dd729e0ae31614fdb6df96c.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-ui-music/sha256-4afb3c8bbdda955627f90e4cd688b7213d2aac997dd729e0ae31614fdb6df96c.deb"
+    }
+  }
+}
