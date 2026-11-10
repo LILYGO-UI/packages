@@ -35,18 +35,30 @@ letters, underscores, leading or trailing hyphens, repeated hyphens, `source`,
 and wildcard names containing an `any` segment (such as `any`, `linux-any`, or
 `any-arm64`) are rejected.
 
-Each package version still identifies exactly one Debian artifact, stored as
-`apps/<package>/releases/<version>.json`. Its manifest must declare exactly one
-entry in `compatibility.architectures`, which must match both
-`artifact.architecture` and the Debian `Architecture` control field exactly.
-An `all` artifact therefore declares `["all"]`. Publishing another architecture
-under an existing package version is not supported. The architecture remains
-fixed even when a yanked release is republished with a replacement artifact.
+Each package/version/architecture identifies one Debian artifact. New records use
+`apps/<package>/releases/<version>_<architecture>.json` (or the equivalent
+`runtimes/` path). Legacy `<version>.json` records remain valid and need no rename.
+For example, an existing `0.1.3.json` containing arm64 can coexist with
+`0.1.3_riscv64.json`; new dual releases use `0.1.3_arm64.json` and
+`0.1.3_riscv64.json`. Duplicate package/version/architecture records are rejected,
+including duplicates across the legacy and new filenames.
 
-These schema changes must land on `main` before a publishing PR can use new
-architecture values. Update the publishing branch against `main` afterward so
-validation uses the new protected base revision; rerunning an old workflow
-keeps its old base revision.
+Local project manifests may declare `["arm64", "riscv64"]`. Each registry release
+manifest still declares exactly one architecture matching its DEB and artifact.
+`all` remains architecture-independent and cannot coexist with concrete variants
+of the same package version. Yank and republish operate on one architecture;
+other variants keep their status and artifact. AppStore details contain separate
+release entries for each architecture, with the existing protocol version.
+
+Merge these validator and schema changes into `main` before publishing with the
+updated LPM. Publishing PRs use trusted validation code from their base revision.
+Update existing publishing branches against the new `main` before rerunning CI.
+
+```sh
+lpm pack --all-architectures
+lpm publish --all-architectures
+lpm unpublish 0.1.3 --arch riscv64 --reason "K230 startup failure"
+```
 
 ## Debian maintainer scripts
 
@@ -66,9 +78,9 @@ base revision.
 
 ```text
 apps/<package>/app.json
-apps/<package>/releases/<version>.json
+apps/<package>/releases/<version>_<architecture>.json
 runtimes/<package>/runtime.json
-runtimes/<package>/releases/<version>.json
+runtimes/<package>/releases/<version>_<architecture>.json
 assets/sha256/<prefix>/<sha256>.<extension>
 ```
 
@@ -141,10 +153,9 @@ sudo apt install lilygo-ui-store
 Only `published` release records are placed in APT `Packages` indexes. Yanked
 and revoked application records remain available through AppStore history but
 are not offered to APT clients. Runtime records remain in the reviewed registry
-history and follow the same APT status rule. The repository currently keeps one
-architecture per package version, matching the registry schema; publish
-separate versions when different device architectures need independent
-artifacts.
+history and follow the same APT status rule. The same version can be indexed
+in both `binary-arm64` and `binary-riscv64`, each with its own artifact.
+Architecture-independent packages are included in both concrete indexes.
 
 Runtime packages follow the same central release convention as applications:
 the Debian asset is stored in `apt-pool-<package>` and indexed under the

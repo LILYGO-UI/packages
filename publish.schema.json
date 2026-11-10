@@ -316,9 +316,10 @@
       "properties": {
         "architectures": {
           "type": "array",
-          "description": "Exactly one concrete Debian architecture or all for this release artifact.",
+          "description": "Supported Debian architectures. A registry release narrows this list to its one artifact architecture.",
           "minItems": 1,
-          "maxItems": 1,
+          "maxItems": 64,
+          "allOf": [{"if": {"contains": {"const": "all"}}, "then": {"maxItems": 1}}],
           "uniqueItems": true,
           "items": {
             "type": "string",

@@ -110,8 +110,9 @@ def ensure_central_asset(
     run_gh(["release", "upload", tag, str(source_path), "--repo", repository])
 
 
-def verify_central_assets(releases: list[ReleaseFile], repository: str) -> None:
+def find_missing_central_assets(releases: list[ReleaseFile], repository: str) -> list[ReleaseFile]:
     cached: dict[str, dict[str, object]] = {}
+    missing: list[ReleaseFile] = []
     for item in releases:
         if item.release["status"] not in {"published", "yanked"}:
             continue
@@ -123,13 +124,16 @@ def verify_central_assets(releases: list[ReleaseFile], repository: str) -> None:
                 ["api", f"repos/{repository}/releases/tags/{tag}"], check=False
             )
             if result.returncode != 0:
-                raise RegistryError(f"central release does not exist: {tag}")
-            try:
-                payload = json.loads(result.stdout)
-            except json.JSONDecodeError as exc:
-                raise RegistryError(
-                    f"GitHub returned invalid release data for {tag}"
-                ) from exc
+                if "HTTP 404" not in (result.stderr or ""):
+                    raise RegistryError(f"cannot inspect central release {tag}: {result.stderr.strip()}")
+                payload = {"assets": []}
+            else:
+                try:
+                    payload = json.loads(result.stdout)
+                except json.JSONDecodeError as exc:
+                    raise RegistryError(f"GitHub returned invalid release data for {tag}") from exc
+            if not isinstance(payload, dict) or not isinstance(payload.get("assets"), list):
+                raise RegistryError(f"GitHub returned invalid release data for {tag}")
             cached[tag] = payload
         assets = cached[tag].get("assets", [])
         match = next(
@@ -140,7 +144,10 @@ def verify_central_assets(releases: list[ReleaseFile], repository: str) -> None:
             ),
             None,
         )
-        if not isinstance(match, dict) or match.get("size") != artifact["size"]:
+        if match is None:
+            missing.append(item)
+            continue
+        if match.get("size") != artifact["size"]:
             raise RegistryError(
                 f"central release asset is missing or has the wrong size: {central['asset']}"
             )
@@ -149,6 +156,14 @@ def verify_central_assets(releases: list[ReleaseFile], repository: str) -> None:
             raise RegistryError(
                 f"central release asset digest does not match: {central['asset']}"
             )
+    return missing
+
+
+def verify_central_assets(releases: list[ReleaseFile], repository: str) -> None:
+    missing = find_missing_central_assets(releases, repository)
+    if missing:
+        names = ", ".join(str(item.release["artifact"]["central"]["asset"]) for item in missing)
+        raise RegistryError(f"central release assets are missing: {names}")
 
 
 def main() -> int:
@@ -182,6 +197,11 @@ def main() -> int:
                 args.all_published or item.path.relative_to(root).as_posix() in changed
             )
         ]
+        # Inspect every architecture in each shared package pool before any
+        # upload, including retained yanked artifacts referenced by history.
+        missing = find_missing_central_assets(releases, args.repository)
+        selected_paths = {item.path for item in selected}
+        selected.extend(item for item in missing if item.path not in selected_paths)
         with tempfile.TemporaryDirectory(prefix="lpm-promote-") as name:
             temporary = Path(name)
             for index, item in enumerate(selected):

@@ -116,9 +116,16 @@ def validate_registry(
     releases = list(iter_releases(root, schema_root=schema_root))
     app_ids: dict[str, str] = {}
     package_kinds: dict[str, str] = {}
+    identities: set[tuple[str, str, str]] = set()
     for item in releases:
         validate_release(root, item, schema_root=schema_root)
         package = str(item.app["package"]).lower()
+        identity = (package, str(item.release["manifest"]["version"]), str(item.release["artifact"]["architecture"]))
+        if identity in identities:
+            raise RegistryError(f"duplicate package/version/architecture release: {item.path}")
+        if any(p == identity[0] and v == identity[1] and (a == "all" or identity[2] == "all") for p, v, a in identities):
+            raise RegistryError(f"cannot combine all and concrete architectures for one version: {item.path}")
+        identities.add(identity)
         previous_kind = package_kinds.setdefault(package, item.kind)
         if previous_kind != item.kind:
             raise RegistryError(
@@ -207,12 +214,18 @@ def _validate_runtime_release(
     package = str(item.app["package"])
     if manifest["package"] != package:
         raise RegistryError(f"runtime release identity does not match {item.path.parent.parent / 'runtime.json'}")
-    if item.path.stem != str(manifest["version"]):
-        raise RegistryError(f"release filename must match manifest version: {item.path}")
+    _validate_release_filename(item)
     owners = [str(owner).lower() for owner in item.app["owners"]]
     if len(owners) != len(set(owners)):
         raise RegistryError(f"runtime owners must be unique ignoring case: {item.path}")
     _validate_artifact(root, item)
+
+
+def _validate_release_filename(item: ReleaseFile) -> None:
+    version = str(item.release["manifest"]["version"])
+    architecture = str(item.release["artifact"]["architecture"])
+    if item.path.stem not in {version, f"{version}_{architecture}"}:
+        raise RegistryError(f"release filename must match manifest version and artifact architecture: {item.path}")
 
 
 def _validate_app_release(
@@ -231,11 +244,7 @@ def _validate_app_release(
         raise RegistryError(
             f"application owners must be unique ignoring case: {item.path}"
         )
-    version = str(manifest["version"])
-    if item.path.stem != version:
-        raise RegistryError(
-            f"release filename must match manifest version: {item.path}"
-        )
+    _validate_release_filename(item)
     if manifest["package"] != package or manifest["app_id"] != item.app["app_id"]:
         raise RegistryError(
             f"release identity does not match {item.path.parent.parent / 'app.json'}"

@@ -25,7 +25,16 @@
       "type": "string",
       "pattern": "^(?=.{1,39}$)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
     },
-    "manifest": { "type": "object" },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "compatibility": {
+          "properties": {
+            "architectures": { "minItems": 1, "maxItems": 1 }
+          }
+        }
+      }
+    },
     "artifact": { "$ref": "#/$defs/artifact" },
     "yank": { "$ref": "#/$defs/yank" },
     "revocation": { "$ref": "#/$defs/revocation" }

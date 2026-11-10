@@ -197,6 +197,7 @@ class RepublishTests(unittest.TestCase):
                 "--all-published",
             ]),
             patch("scripts.promote_release.git_changed_paths", side_effect=AssertionError),
+            patch("scripts.promote_release.find_missing_central_assets", return_value=[]),
             patch("scripts.promote_release.ensure_central_asset") as ensure,
             patch("scripts.promote_release.verify_central_assets"),
         ):
