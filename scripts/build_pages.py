@@ -74,19 +74,18 @@ def build_pages(
     generated_at: str,
 ) -> None:
     releases = validate_registry(root)
-    grouped: dict[str, list[Any]] = {}
+    grouped: dict[tuple[str, str], list[Any]] = {}
     for item in releases:
-        if item.kind != "app":
-            continue
-        grouped.setdefault(str(item.app["package"]), []).append(item)
+        grouped.setdefault((item.kind, str(item.app["package"])), []).append(item)
 
     snapshot_root = output / "v1" / "snapshots" / snapshot_id
     details_root = snapshot_root / "apps"
     details_root.mkdir(parents=True, exist_ok=True)
     index_apps: list[dict[str, Any]] = []
+    index_runtimes: list[dict[str, Any]] = []
     copied_assets: set[str] = set()
 
-    for package, items in sorted(grouped.items()):
+    for (kind, package), items in sorted(grouped.items()):
         sorted_items = sorted(
             items,
             key=cmp_to_key(
@@ -102,6 +101,63 @@ def build_pages(
         ]
         current = published[0] if published else sorted_items[0]
         manifest = current.release["manifest"]
+        detail_releases: list[dict[str, Any]] = []
+        for item in sorted_items:
+            release = item.release
+            artifact = release["artifact"]
+            value: dict[str, Any] = {
+                "version": release["manifest"]["version"],
+                "architecture": artifact["architecture"],
+                "status": release["status"],
+                "size": artifact["size"],
+                "sha256": artifact["sha256"],
+                "url": artifact["central"]["url"],
+                "published_at": commit_at(root, item.path, generated_at, added=True),
+            }
+            if kind == "app":
+                value["min_appkit_version"] = release["manifest"]["compatibility"][
+                    "min_appkit_version"
+                ]
+            if release["status"] == "yanked":
+                value["reason"] = release["yank"]["reason"]
+                value["yanked_at"] = commit_at(root, item.path, generated_at)
+            elif release["status"] == "revoked":
+                value["reason"] = release["revocation"]["reason"]
+            detail_releases.append(value)
+
+        if kind == "runtime":
+            detail = {
+                "protocol_version": 1,
+                "package": package,
+                "title": manifest.get("title", package),
+                "summary": manifest.get("summary", "Shared runtime component"),
+                "description": manifest.get(
+                    "description", manifest.get("summary", "Shared runtime component")
+                ),
+                "authors": [
+                    {"name": owner, "github": owner} for owner in current.app["owners"]
+                ],
+                "releases": detail_releases,
+            }
+            for field in ("license", "source_repo", "homepage"):
+                if field in manifest:
+                    detail[field] = manifest[field]
+            detail_path = snapshot_root / "runtimes" / f"{package}.json"
+            validate_schema(root, "registry-runtime.schema.json", detail, detail_path)
+            detail_path.parent.mkdir(parents=True, exist_ok=True)
+            detail_content = json_bytes(detail)
+            detail_path.write_bytes(detail_content)
+            if published:
+                index_runtimes.append({
+                    "package": package,
+                    "title": detail["title"],
+                    "summary": detail["summary"],
+                    "latest_version": manifest["version"],
+                    "detail_url": f"{base_url}/v1/snapshots/{snapshot_id}/runtimes/{package}.json",
+                    "detail_sha256": hashlib.sha256(detail_content).hexdigest(),
+                })
+            continue
+
         app_id = str(manifest["app_id"])
         icon_path = str(manifest["assets"]["icon"])
         screenshots = [
@@ -121,29 +177,6 @@ def build_pages(
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(root / relative, destination)
             copied_assets.add(relative)
-
-        detail_releases: list[dict[str, Any]] = []
-        for item in sorted_items:
-            release = item.release
-            artifact = release["artifact"]
-            value: dict[str, Any] = {
-                "version": release["manifest"]["version"],
-                "architecture": artifact["architecture"],
-                "status": release["status"],
-                "size": artifact["size"],
-                "sha256": artifact["sha256"],
-                "url": artifact["central"]["url"],
-                "min_appkit_version": release["manifest"]["compatibility"][
-                    "min_appkit_version"
-                ],
-                "published_at": commit_at(root, item.path, generated_at, added=True),
-            }
-            if release["status"] == "yanked":
-                value["reason"] = release["yank"]["reason"]
-                value["yanked_at"] = commit_at(root, item.path, generated_at)
-            elif release["status"] == "revoked":
-                value["reason"] = release["revocation"]["reason"]
-            detail_releases.append(value)
 
         detail = {
             "protocol_version": 1,
@@ -185,6 +218,7 @@ def build_pages(
         "snapshot_id": snapshot_id,
         "generated_at": generated_at,
         "apps": index_apps,
+        "runtimes": index_runtimes,
     }
     index_path = snapshot_root / "index.json"
     validate_schema(root, "registry-index.schema.json", index, index_path)

@@ -87,8 +87,21 @@ assets/sha256/<prefix>/<sha256>.<extension>
 Application ownership is established by the first reviewed `app.json`. Runtime
 ownership is established by the first reviewed `runtime.json`; runtime release
 records use `runtime-release.schema.json` and intentionally omit AppStore
-identity and visual assets. Runtime records are published to APT but are not
-included in the AppStore `apps` index or application detail documents.
+identity and visual assets. Runtime records are published to APT and to a
+separate, optional `runtimes` array in the Store Registry v1 index. They remain
+outside the `apps` index and application detail documents. Each runtime entry
+contains its package, title, summary, latest published version, detail URL and
+detail SHA-256. Details live at
+`v1/snapshots/<snapshot_id>/runtimes/<package>.json` and retain all architectures
+and release statuses, without requiring an application ID, icon, screenshots
+or minimum AppKit version. Missing optional display metadata falls back to the
+package name and a shared-component description.
+
+Updated Store clients use this directory to update installed runtimes. Older
+clients ignore `runtimes`; updated clients accept old snapshots without it.
+Publish the updated Pages generator before deploying the updated Store. The
+root index digest also covers the runtime entries and their detail digests.
+
 `lpm unpublish` creates another pull request that changes only the selected
 release status to `yanked` and adds the public reason. The historical record
 and central Debian asset remain.

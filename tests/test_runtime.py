@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -30,6 +31,7 @@ def make_runtime(root: Path, *, owner: str = "alice", architecture: str = "arm64
         "runtime-release.schema.json",
         "registry-root.schema.json",
         "registry-index.schema.json",
+        "registry-runtime.schema.json",
     ):
         shutil.copy2(source / schema, root / schema)
 
@@ -133,7 +135,7 @@ class RuntimeRegistryTests(unittest.TestCase):
             write_json(release_path, release)
             self.assertEqual(len(validate_registry(root)), 1)
 
-    def test_runtime_is_indexed_by_apt_and_omitted_from_appstore_pages(self) -> None:
+    def test_runtime_is_indexed_by_apt_and_separately_in_store_pages(self) -> None:
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
             make_runtime(root)
@@ -176,6 +178,19 @@ class RuntimeRegistryTests(unittest.TestCase):
                 (output / f"v1/snapshots/{'a' * 40}/index.json").read_text()
             )
             self.assertEqual(index["apps"], [])
+            self.assertEqual([item["package"] for item in index["runtimes"]], ["meshtasticd"])
+            summary = index["runtimes"][0]
+            detail_bytes = (output / f"v1/snapshots/{'a' * 40}/runtimes/meshtasticd.json").read_bytes()
+            self.assertEqual(summary["detail_sha256"], hashlib.sha256(detail_bytes).hexdigest())
+            detail = json.loads(detail_bytes)
+            self.assertEqual(detail["title"], "Meshtastic daemon")
+            self.assertEqual(detail["authors"], [{"name": "alice", "github": "alice"}])
+            self.assertNotIn("app_id", detail)
+            self.assertNotIn("icon_url", detail)
+            self.assertNotIn("min_appkit_version", detail["releases"][0])
+            root_document = json.loads((output / "v1/root.json").read_text())
+            index_bytes = (output / f"v1/snapshots/{'a' * 40}/index.json").read_bytes()
+            self.assertEqual(root_document["index"]["sha256"], hashlib.sha256(index_bytes).hexdigest())
 
     def test_mixed_application_and_runtime_records_share_apt_indexes(self) -> None:
         with tempfile.TemporaryDirectory() as name:
@@ -226,6 +241,64 @@ class RuntimeRegistryTests(unittest.TestCase):
                 (output / f"v1/snapshots/{'b' * 40}/index.json").read_text()
             )
             self.assertEqual([app["package"] for app in index["apps"]], ["lilygo-ui-demo"])
+            self.assertEqual([item["package"] for item in index["runtimes"]], ["meshtasticd"])
+
+    def test_minimal_runtime_metadata_is_renderable(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            release_path = make_runtime(root)
+            release = json.loads(release_path.read_text())
+            for field in ("title", "summary", "description", "license", "source_repo", "homepage"):
+                release["manifest"].pop(field)
+            write_json(release_path, release)
+            build_pages(root, root / "public", base_url="https://registry.test",
+                        snapshot_id="a" * 40, generated_at="2026-11-17T12:00:00+08:00")
+            detail = json.loads((root / f"public/v1/snapshots/{'a' * 40}/runtimes/meshtasticd.json").read_text())
+            self.assertEqual(detail["title"], "meshtasticd")
+            self.assertEqual(detail["summary"], "Shared runtime component")
+            self.assertNotIn("source_repo", detail)
+
+    def test_runtime_pages_preserve_architectures_and_withdrawals(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            path = make_runtime(root)
+            base_release = json.loads(path.read_text())
+            for version, architecture, status in (("3.0.0", "riscv64", "published"),
+                                                  ("4.0.0", "all", "yanked"),
+                                                  ("5.0.0", "arm64", "revoked")):
+                release = json.loads(json.dumps(base_release))
+                release["manifest"]["version"] = version
+                release["manifest"]["compatibility"]["architectures"] = [architecture]
+                release["artifact"]["architecture"] = architecture
+                release["status"] = status
+                if status == "yanked":
+                    release["yank"] = {"reason": "Broken release", "requested_by": "alice"}
+                if status == "revoked":
+                    release["revocation"] = {"reason": "Invalid package"}
+                write_json(path.parent / f"{version}_{architecture}.json", release)
+            build_pages(root, root / "public", base_url="https://registry.test",
+                        snapshot_id="a" * 40, generated_at="2026-11-17T12:00:00+08:00")
+            snapshot = root / f"public/v1/snapshots/{'a' * 40}"
+            index = json.loads((snapshot / "index.json").read_text())
+            self.assertEqual(index["runtimes"][0]["latest_version"], "3.0.0")
+            detail = json.loads((snapshot / "runtimes/meshtasticd.json").read_text())
+            self.assertEqual(len(detail["releases"]), 4)
+            self.assertEqual(detail["releases"][0]["status"], "revoked")
+            self.assertEqual(detail["releases"][1]["reason"], "Broken release")
+            self.assertEqual(detail["releases"][2]["architecture"], "riscv64")
+
+    def test_withdrawn_runtime_is_not_offered(self) -> None:
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            path = make_runtime(root)
+            release = json.loads(path.read_text())
+            release["status"] = "revoked"
+            release["revocation"] = {"reason": "Invalid package"}
+            write_json(path, release)
+            build_pages(root, root / "public", base_url="https://registry.test",
+                        snapshot_id="a" * 40, generated_at="2026-11-17T12:00:00+08:00")
+            index = json.loads((root / f"public/v1/snapshots/{'a' * 40}/index.json").read_text())
+            self.assertEqual(index["runtimes"], [])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/registry-runtime.schema.json",
+  "title": "LILYGO Store Runtime Detail",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "package",
+    "title",
+    "summary",
+    "description",
+    "authors",
+    "releases"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "package": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "license": {
+      "type": "string"
+    },
+    "source_repo": {
+      "type": "string",
+      "format": "uri"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "architecture",
+          "status",
+          "size",
+          "sha256",
+          "url",
+          "published_at"
+        ],
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "architecture": {
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "not": {
+              "pattern": "(^|-)any(-|$)|^source$|[^a-z0-9-]"
+            }
+          },
+          "status": {
+            "enum": [
+              "published",
+              "yanked",
+              "revoked"
+            ]
+          },
+          "size": {
+            "type": "integer"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "yanked_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "releases": {
+          "items": {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "yanked"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "reason",
+                "yanked_at"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

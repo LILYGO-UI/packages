@@ -34,6 +34,7 @@ SCHEMAS = (
     "registry-release.schema.json",
     "registry-root.schema.json",
     "registry-index.schema.json",
+    "registry-runtime.schema.json",
     "registry-app.schema.json",
 )
 
