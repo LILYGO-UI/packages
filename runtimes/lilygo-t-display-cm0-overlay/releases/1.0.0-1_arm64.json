@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+    "schema_version": 1,
+    "package": "lilygo-t-display-cm0-overlay",
+    "version": "1.0.0-1",
+    "compatibility": {
+      "architectures": [
+        "arm64"
+      ]
+    }
+  },
+  "artifact": {
+    "architecture": "arm64",
+    "size": 19456,
+    "sha256": "994108526240cfd8d01f33d155eb67e7cd83f0df53e692a03a55866d7e7ca81b",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-lilygo-t-display-cm0-overlay-1.0.0-1-994108526240",
+      "asset": "sha256-994108526240cfd8d01f33d155eb67e7cd83f0df53e692a03a55866d7e7ca81b.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-lilygo-t-display-cm0-overlay-1.0.0-1-994108526240/sha256-994108526240cfd8d01f33d155eb67e7cd83f0df53e692a03a55866d7e7ca81b.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-lilygo-t-display-cm0-overlay",
+      "asset": "sha256-994108526240cfd8d01f33d155eb67e7cd83f0df53e692a03a55866d7e7ca81b.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-lilygo-t-display-cm0-overlay/sha256-994108526240cfd8d01f33d155eb67e7cd83f0df53e692a03a55866d7e7ca81b.deb"
+    }
+  }
+}
