@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+  "schema_version": 1,
+  "status": "published",
+  "submitted_by": "lbuque",
+  "manifest": {
+    "$schema": "https://raw.githubusercontent.com/LILYGO-UI/packages/main/runtime-release.schema.json",
+    "schema_version": 1,
+    "package": "meshtasticd",
+    "version": "2.8.0.0~local6d412bf",
+    "compatibility": {
+      "architectures": [
+        "riscv64"
+      ]
+    }
+  },
+  "artifact": {
+    "architecture": "riscv64",
+    "size": 2405812,
+    "sha256": "ac4d1357fa03bfc55bf721b29f99187574281effeaf47cb9bbdf29d2014632b6",
+    "media_type": "application/vnd.debian.binary-package",
+    "source": {
+      "repository": "lbuque/packages",
+      "tag": "lpm-staging-meshtasticd-2.8.0.0-local6d412bf-ac4d1357fa03",
+      "asset": "sha256-ac4d1357fa03bfc55bf721b29f99187574281effeaf47cb9bbdf29d2014632b6.deb",
+      "url": "https://github.com/lbuque/packages/releases/download/lpm-staging-meshtasticd-2.8.0.0-local6d412bf-ac4d1357fa03/sha256-ac4d1357fa03bfc55bf721b29f99187574281effeaf47cb9bbdf29d2014632b6.deb"
+    },
+    "central": {
+      "repository": "LILYGO-UI/packages",
+      "tag": "apt-pool-meshtasticd",
+      "asset": "sha256-ac4d1357fa03bfc55bf721b29f99187574281effeaf47cb9bbdf29d2014632b6.deb",
+      "url": "https://github.com/LILYGO-UI/packages/releases/download/apt-pool-meshtasticd/sha256-ac4d1357fa03bfc55bf721b29f99187574281effeaf47cb9bbdf29d2014632b6.deb"
+    }
+  }
+}
